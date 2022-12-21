@@ -162,7 +162,8 @@ const DropdownItem = styled.div`
 `;
 
 const Typography = styled.div`
-  padding: 0.001rem;
+  font-size: 14px;
+  font-display: initial;
   @media screen and (max-width: 768px) {
     font-size: 11px;
   }
