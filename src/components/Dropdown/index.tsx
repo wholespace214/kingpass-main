@@ -53,7 +53,7 @@ const ItemContent = (props: ItemContentProps) => {
   return (
     <ItemContentContainer>
       <StatusCircle style={{ backgroundColor: color }} />
-      <Typography>{content}</Typography>
+      {content}
     </ItemContentContainer>
   );
 };
@@ -65,9 +65,11 @@ const ItemContentContainer = styled.div`
   font-size: 14px;
   @media screen and (max-width: 768px) {
     gap: 8px;
+    font-size: 11px;
   }
   @media screen and (max-width: 450px) {
     gap: 4px;
+    font-size: 9px;
   }
 `;
 
@@ -158,17 +160,5 @@ const DropdownItem = styled.div`
   @media screen and (max-width: 450px) {
     width: 95px;
     height: 30px;
-  }
-`;
-
-const Typography = styled.div`
-  font-size: 14px;
-  text-align: center;
-  padding: 0.1em;
-  @media screen and (max-width: 768px) {
-    font-size: 11px;
-  }
-  @media screen and (max-width: 450px) {
-    font-size: 9px;
   }
 `;
