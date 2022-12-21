@@ -5,7 +5,7 @@ export const HeaderLogo = () => {
   return (
     <HeaderLogoContainer>
       <Img src={KingPassLogo} alt="kingpass-logo" />
-      KING PASS
+      <Typography>KING PASS</Typography>
     </HeaderLogoContainer>
   );
 };
@@ -16,8 +16,23 @@ const HeaderLogoContainer = styled.div`
   gap: 28px;
   font-family: 'gotham-bold';
   font-size: 19px;
+  @media screen and (max-width: 1072px) {
+    gap: 15px;
+  }
 `;
 const Img = styled.img`
   width: 50px;
   height: auto;
+  @media screen and (max-width: 450px) {
+    width: 40px;
+  }
+  @media screen and (max-width: 390px) {
+    width: 35px;
+  }
+`;
+
+const Typography = styled.div`
+  @media screen and (max-width: 640px) {
+    display: none;
+  }
 `;

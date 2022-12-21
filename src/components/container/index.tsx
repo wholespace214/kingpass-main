@@ -16,7 +16,13 @@ export const GlobalContainer = (props: ContainerProps) => {
 const ContentWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 75px;
+  padding: 50px;
+  @media screen and (max-width: 840px) {
+    padding: 30px;
+  }
+  @media screen and (max-width: 450px) {
+    padding: 30px 15px;
+  }
 `;
 
 const Wrapper = styled.div`

@@ -19,7 +19,7 @@
   },
   "plugins": ["react", "prettier", "eslint-plugin", "@typescript-eslint"],
   "rules": {
-    "no-console": "off", // Means error
+    "no-console": "error",
     "default-case": "error",
     "default-case-last": "error",
     "no-multiple-empty-lines": [
