@@ -16,6 +16,7 @@ const HeaderLogoContainer = styled.div`
   gap: 28px;
   font-family: 'gotham-bold';
   font-size: 19px;
+  cursor: pointer;
   @media screen and (max-width: 1072px) {
     gap: 15px;
   }
