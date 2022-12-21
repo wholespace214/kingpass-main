@@ -63,6 +63,7 @@ const ItemContentContainer = styled.div`
   gap: 15px;
   align-items: center;
   font-size: 14px;
+  padding: 1px;
   @media screen and (max-width: 768px) {
     gap: 8px;
     font-size: 11px;
