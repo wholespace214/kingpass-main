@@ -162,6 +162,7 @@ const DropdownItem = styled.div`
 `;
 
 const Typography = styled.div`
+  font-family: 'gotham-book';
   @media screen and (max-width: 768px) {
     font-size: 11px;
   }
