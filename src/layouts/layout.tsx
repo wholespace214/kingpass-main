@@ -18,10 +18,10 @@ export const Layout = ({ children }: LayoutProps) => {
         <source src={VideoA} type="video/mp4" id="background-video" />
         Your browser does not support the video tag
       </VideoBackgroundA>
-      <VideoBackgroundB autoPlay loop playsInline muted id="video-background">
+      {/* <VideoBackgroundB autoPlay loop playsInline muted id="video-background">
         <source src={VideoB} type="video/mp4" id="background-video" />
         Your browser does not support the video tag
-      </VideoBackgroundB>
+      </VideoBackgroundB> */}
       <GlobalContainer>
         <Header />
         {children}
@@ -50,18 +50,18 @@ const VideoBackgroundA = styled.video`
   object-fit: cover;
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: -1;
 `;
 
-const VideoBackgroundB = styled.video`
-  object-fit: cover;
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 100vh;
-  left: 0;
-  z-index: -1;
-`;
+// const VideoBackgroundB = styled.video`
+//   object-fit: cover;
+//   width: 100vw;
+//   height: 100vh;
+//   position: absolute;
+//   top: 100vh;
+//   left: 0;
+//   z-index: -1;
+// `;

@@ -27,5 +27,5 @@ const ContentWrapper = styled.div`
 
 const Wrapper = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1270px;
 `;

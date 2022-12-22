@@ -81,4 +81,7 @@ const KingpassContent = styled.div`
   flex-direction: column;
   gap: 10px;
   line-height: 30px;
+  @media screen and (max-width: 450px) {
+    font-size: 12px;
+  }
 `;
