@@ -127,6 +127,7 @@ const SidebarMenuButton = styled.div`
   width: 30px;
   height: 30px;
   display: none;
+  cursor: pointer;
   @media screen and (max-width: 1072px) {
     display: block;
   }
