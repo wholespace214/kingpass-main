@@ -71,12 +71,15 @@ const ContentDetails = styled.div`
     font-size: 25px;
     max-width: 330px;
     text-align: center;
+    line-height: 35px;
   }
 `;
 
 const KingpassContent = styled.div`
   max-width: 1070px;
   font-size: 17px;
+  padding-left: 20px;
+  padding-right: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
