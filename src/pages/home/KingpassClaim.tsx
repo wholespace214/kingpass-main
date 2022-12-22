@@ -89,6 +89,8 @@ const ClaimContent = styled.div`
   @media screen and (max-width: 1356px) {
     width: 100%;
     line-height: 40px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
   @media screen and (max-width: 450px) {
     font-size: 12px;
