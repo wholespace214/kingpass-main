@@ -61,10 +61,9 @@ const KingpassClaimContainer = styled.div`
 const ClaimContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  align-items: flex-start;
+  gap: 45px;
   @media screen and (max-width: 768px) {
-    gap: 10px;
+    gap: 0;
   }
 `;
 
@@ -78,10 +77,6 @@ const ClaimTitle = styled.div`
     text-align: center;
     max-width: none;
   }
-  @media screen and (max-width: 450px) {
-    width: 250px;
-    line-height: 35px;
-  }
 `;
 
 const ClaimContent = styled.div`
@@ -92,10 +87,8 @@ const ClaimContent = styled.div`
   font-size: 17px;
   line-height: 30px;
   @media screen and (max-width: 1356px) {
-    padding-left: 20px;
-    padding-right: 20px;
-    width: fit-content;
-    line-height: 30px;
+    width: 100%;
+    line-height: 40px;
   }
   @media screen and (max-width: 450px) {
     font-size: 12px;
@@ -123,13 +116,14 @@ const ClaimCard = styled.div`
   border-radius: 24px;
   background-color: rgba(0, 0, 0, 0.45);
   padding: 72px 45px;
-  width: 210px;
+  min-width: 210px;
+  max-width: 270px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: 35px;
-  @media screen and (max-width: 390px) {
-    padding: 72px 25px;
+  @media screen and (max-width: 640px) {
+    padding: 72px 45px;
   }
 `;
 
@@ -138,24 +132,15 @@ const CardTitle = styled.div`
   font-family: 'gotham-bold';
   color: #ffe3fd;
   text-align: center;
-  @media screen and (max-width: 390px) {
-    font-size: 17px;
-  }
 `;
 
 const CardButtonValue = styled.div`
   font-size: 17px;
-  @media screen and (max-width: 390px) {
-    font-size: 13px;
-  }
 `;
 
 const CardButtonIcon = styled.img`
   width: 30px;
   height: auto;
-  @media screen and (max-width: 390px) {
-    width: 24px;
-  }
 `;
 
 const CardAction = styled.div`
@@ -173,9 +158,6 @@ const CardButton1 = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  @media screen and (max-width: 390px) {
-    height: 49px;
-  }
 `;
 
 const CardButton2 = styled.button`
@@ -191,7 +173,4 @@ const CardButton2 = styled.button`
   border: none;
   background: transparent linear-gradient(232deg, #fcb0fe 0%, #bbffff 100%) 0% 0% no-repeat padding-box;
   text-transform: uppercase;
-  @media screen and (max-width: 390px) {
-    height: 49px;
-  }
 `;

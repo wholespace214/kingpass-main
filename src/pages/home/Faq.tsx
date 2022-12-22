@@ -32,9 +32,15 @@ export const FaqSection = () => {
         Where to use the <span style={{ fontFamily: 'gotham-bold' }}>Kingpass</span>
       </KingWorldTitle>
       <KingWorldLinks>
-        <KingWorld src={KingFloki} alt="king-floki" />
-        <KingWorld src={KingPad} alt="king-pad" />
-        <KingWorld src={KingLand} alt="king-land" />
+        <a href={'https://kingflokiworld.com/'} rel="noopener noreferrer">
+          <KingWorld src={KingFloki} alt="king-floki" />
+        </a>
+        <a href={'https://kingpad.finance/'} rel="noopener noreferrer">
+          <KingWorld src={KingPad} alt="king-pad" />
+        </a>
+        <a href={'https://kingland.finance/'} rel="noopener noreferrer">
+          <KingWorld src={KingLand} alt="king-land" />
+        </a>
       </KingWorldLinks>
       <FaqLetter>FAQ’s</FaqLetter>
       <AccordionContainer>
