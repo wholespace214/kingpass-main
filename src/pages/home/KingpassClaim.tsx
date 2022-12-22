@@ -91,7 +91,6 @@ const ClaimContent = styled.div`
   font-size: 17px;
   line-height: 30px;
   @media screen and (max-width: 1356px) {
-    line-height: 40px;
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -111,7 +110,7 @@ const ClaimCardContainer = styled.div`
     padding: 0;
     background: none;
   }
-  @media screen and (max-width: 690px) {
+  @media screen and (max-width: 500px) {
     flex-direction: column;
     align-items: center;
   }
@@ -121,14 +120,13 @@ const ClaimCard = styled.div`
   border-radius: 24px;
   background-color: rgba(0, 0, 0, 0.45);
   padding: 72px 45px;
-  min-width: 210px;
-  max-width: 270px;
+  width: 210px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: 35px;
   @media screen and (max-width: 640px) {
-    padding: 72px 45px;
+    padding: 72px 20px;
   }
 `;
 
@@ -137,15 +135,24 @@ const CardTitle = styled.div`
   font-family: 'gotham-bold';
   color: #ffe3fd;
   text-align: center;
+  @media screen and (max-width: 640px) {
+    font-size: 16px;
+  }
 `;
 
 const CardButtonValue = styled.div`
   font-size: 17px;
+  @media screen and (max-width: 640px) {
+    font-size: 13px;
+  }
 `;
 
 const CardButtonIcon = styled.img`
   width: 30px;
   height: auto;
+  @media screen and (max-width: 640px) {
+    width: 20px;
+  }
 `;
 
 const CardAction = styled.div`
@@ -163,6 +170,10 @@ const CardButton1 = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  @media screen and (max-width: 640px) {
+    height: 45px;
+    gap: 10px;
+  }
 `;
 
 const CardButton2 = styled.button`
@@ -178,4 +189,8 @@ const CardButton2 = styled.button`
   border: none;
   background: transparent linear-gradient(232deg, #fcb0fe 0%, #bbffff 100%) 0% 0% no-repeat padding-box;
   text-transform: uppercase;
+  @media screen and (max-width: 640px) {
+    height: 45px;
+    font-size: 13px;
+  }
 `;
