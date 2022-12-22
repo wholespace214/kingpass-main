@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { AwesomeButton } from 'src/components/Button';
-import { GlobalContainer } from 'src/components/container';
 import { AwesomeDropDown } from 'src/components/Dropdown';
 import { HeaderLogo } from 'src/components/HeaderLogo';
 import { FiMenu } from 'react-icons/fi';
@@ -33,10 +32,10 @@ export const Header = () => {
   };
 
   return (
-    <GlobalContainer>
+    <>
       <HeaderContent state={state} handleState={handleStateChanged} />
       <Modal name="isSideOpen" isState={state.isSideOpen} state={state} handleState={handleStateChanged} />
-    </GlobalContainer>
+    </>
   );
 };
 

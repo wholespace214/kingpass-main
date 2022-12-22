@@ -5,6 +5,7 @@ import { Header } from './header';
 import { Footer } from './footer';
 import VideoA from '../assets/videos/VideoA.mp4';
 import VideoB from '../assets/videos/VideoB.mp4';
+import { GlobalContainer } from 'src/components/container';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -21,8 +22,10 @@ export const Layout = ({ children }: LayoutProps) => {
         <source src={VideoB} type="video/mp4" id="background-video" />
         Your browser does not support the video tag
       </VideoBackgroundB>
-      <Header />
-      {children}
+      <GlobalContainer>
+        <Header />
+        {children}
+      </GlobalContainer>
       <ToastContainer
         position="bottom-right"
         autoClose={3000}
