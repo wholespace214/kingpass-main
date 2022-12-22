@@ -61,6 +61,7 @@ const KingpassClaimContainer = styled.div`
 const ClaimContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 45px;
   @media screen and (max-width: 768px) {
     gap: 0;
@@ -77,17 +78,19 @@ const ClaimTitle = styled.div`
     text-align: center;
     max-width: none;
   }
+  @media screen and (max-width: 450px) {
+    max-width: 150px;
+    line-height: 35px;
+  }
 `;
 
 const ClaimContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 455px;
   font-size: 17px;
   line-height: 30px;
   @media screen and (max-width: 1356px) {
-    width: 100%;
     line-height: 40px;
     padding-left: 20px;
     padding-right: 20px;
