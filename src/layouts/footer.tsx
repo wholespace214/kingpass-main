@@ -6,7 +6,9 @@ import { BsMedium } from 'react-icons/bs';
 export const Footer = () => {
   return (
     <FooterContainer>
-      <Img src={FooterLogo} alt="footer-logo" />
+      <a href={'https://kingworld.finance/'} rel="noopener noreferrer">
+        <Img src={FooterLogo} alt="footer-logo" />
+      </a>
       <FooterLinks>
         <FooterLink>Cookie preferences</FooterLink> | <FooterLink>Privacy police</FooterLink> |
         <FooterLink>Terms of use</FooterLink>

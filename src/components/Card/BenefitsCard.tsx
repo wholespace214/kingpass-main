@@ -27,9 +27,9 @@ const CardContainer = styled.div`
   padding: 60px 40px 90px 40px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 25px;
-  max-width: 210px;
+  /* max-width: 210px; */
   @media screen and (max-width: 768px) {
     padding: 60px 20px;
   }
@@ -44,7 +44,8 @@ const CardNumber = styled.div`
 
 const CardTitle = styled.div`
   font-size: 22px;
-  text-transform: uppercase;
+  text-align: center;
+  max-width: 205px;
   @media screen and (max-width: 498px) {
     font-size: 15px;
   }

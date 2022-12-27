@@ -22,15 +22,22 @@
 }
 
 body {
-  background-color: #fff;
+  background-image: url('assets/png/background.png');
   margin: 0;
-
+  height: 100%;
   /* base font */
   font-family: 'gotham-book';
   font-size: 12px;
   color: #fff;
+  object-fit: cover;
+  background-size: cover;
 }
 
+@media screen and (max-width: 540px) {
+  body {
+    background-image: url('assets/png/background_mobile.png');
+  }
+}
 button {
   padding: 0;
   margin: 0;

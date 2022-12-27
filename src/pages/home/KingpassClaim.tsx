@@ -10,14 +10,13 @@ export const KingpassClaim = () => {
         </ClaimTitle>
         <ClaimContent>
           <p>
-            orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat.
+            You have never been closer to the ultimate experience. Claiming your KingPass is bringing you to new
+            heights, finally allowing you to enjoy all the perks of being a VIP KING.
           </p>
           <p>
-            Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum.
+            You always have two choices with us. In order to claim your pass you can either lock your $KING tokens or
+            join our monthly subscription program (both of the previously mentioned can be cancelled after 30 days
+            without any penalisation).
           </p>
         </ClaimContent>
       </ClaimContentContainer>
@@ -49,7 +48,7 @@ export const KingpassClaim = () => {
 const KingpassClaimContainer = styled.div`
   padding-top: 11rem;
   display: flex;
-  gap: 55px;
+  gap: 30px;
   @media screen and (max-width: 1356px) {
     flex-direction: column;
   }
@@ -61,16 +60,12 @@ const KingpassClaimContainer = styled.div`
 const ClaimContentContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 45px;
-  @media screen and (max-width: 768px) {
-    gap: 0;
-  }
+  align-items: flex-start;
 `;
 
 const ClaimTitle = styled.div`
-  font-size: 45px;
-  line-height: 60px;
+  font-size: 28px;
+  line-height: 40px;
   max-width: 250px;
   @media screen and (max-width: 1356px) {
     width: 100%;
@@ -90,17 +85,15 @@ const ClaimContent = styled.div`
   gap: 10px;
   font-size: 17px;
   line-height: 30px;
-  @media screen and (max-width: 1356px) {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
   @media screen and (max-width: 450px) {
     font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 `;
 
 const ClaimCardContainer = styled.div`
-  padding: 47px 56px;
+  padding: 70px 30px;
   display: flex;
   gap: 23px;
   border-radius: 23px;
@@ -170,6 +163,7 @@ const CardButton1 = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  cursor: pointer;
   @media screen and (max-width: 640px) {
     height: 45px;
     gap: 10px;
@@ -187,6 +181,7 @@ const CardButton2 = styled.button`
   color: #010101;
   font-family: 'gotham-bold';
   border: none;
+  cursor: pointer;
   background: transparent linear-gradient(232deg, #fcb0fe 0%, #bbffff 100%) 0% 0% no-repeat padding-box;
   text-transform: uppercase;
   @media screen and (max-width: 640px) {

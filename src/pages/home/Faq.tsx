@@ -75,7 +75,7 @@ const KingWorldTitle = styled.div`
 
 const KingWorldLinks = styled.div`
   display: flex;
-  gap: 10rem;
+  gap: 8.5rem;
   padding-top: 50px;
   @media screen and (max-width: 840px) {
     gap: 4rem;
@@ -86,7 +86,7 @@ const KingWorldLinks = styled.div`
   }
 `;
 const KingWorld = styled.img`
-  width: 120px;
+  width: 90px;
   height: auto;
   cursor: pointer;
   @media screen and (max-width: 840px) {

@@ -17,13 +17,14 @@ export const KingpassDetail = () => {
       </KingpassAction>
       <KingpassContent>
         <p>
-          orem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat.
+          KingPass allows you to be and feel unique within KING’s ecosystem and the crypto space. If you are the type to
+          enjoy priorities, exclusive information, decision-making, discounts and recognition, this is your place, this
+          is your card.
         </p>
         <p>
-          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+          The KINGPASS comes in the form of an NFT within your wallet. Through coding, KING is able to recognise whether
+          your subscription is active or not, allowing you to access or not to your VIP experience. King Pass is a
+          limited non tradable asset with a supply of 1000 pieces, will you be able to get your hands in one?
         </p>
       </KingpassContent>
     </KingpassDetailContainer>
@@ -78,13 +79,13 @@ const ContentDetails = styled.div`
 const KingpassContent = styled.div`
   max-width: 1070px;
   font-size: 17px;
-  padding-left: 20px;
-  padding-right: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
   line-height: 30px;
   @media screen and (max-width: 450px) {
     font-size: 12px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 `;

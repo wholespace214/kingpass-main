@@ -59,7 +59,9 @@ export const HeaderContent = (props: HeaderProps) => {
         <HeaderNav>
           <NavItem>Competition</NavItem>
           <NavItem>News</NavItem>
-          <NavItem>King</NavItem>
+          <a href={'https://kingworld.finance'} rel="noopener noreferrer">
+            <NavItem>King</NavItem>
+          </a>
           <NavItem>Docs</NavItem>
         </HeaderNav>
         <HeaderButtons>
