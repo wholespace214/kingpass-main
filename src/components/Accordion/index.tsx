@@ -33,6 +33,7 @@ export const Accordion = (props: AccordionProps) => {
 const AccordionContainer = styled.div`
   width: 100%;
   z-index: 1000;
+  font-size: 16px;
   background: none;
   margin-bottom: 8px;
 

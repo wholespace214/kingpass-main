@@ -24,7 +24,7 @@ const CardContainer = styled.div`
   border-radius: 24px;
 
   display: flex;
-  padding: 60px 40px 90px 40px;
+  padding: 30px 60px;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -46,6 +46,7 @@ const CardTitle = styled.div`
   font-size: 22px;
   text-align: center;
   max-width: 205px;
+  color: #ffe3fd;
   @media screen and (max-width: 498px) {
     font-size: 15px;
   }

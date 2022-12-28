@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { PlayButton } from 'src/components/Button';
 import { KingpassCard } from 'src/config/images';
+import ModalVideo from 'react-modal-video';
 import styled from 'styled-components';
 
 export const KingpassDetail = () => {
+  const [isVideoOpen, setVideoOpen] = useState(false);
   return (
     <KingpassDetailContainer>
       <KingpassAction>
@@ -12,7 +15,13 @@ export const KingpassDetail = () => {
             <span>Immerse yourself into the newest </span>
             <span style={{ fontFamily: 'gotham-bold' }}>digital VIP experience</span>
           </p>
-          <PlayButton />
+          <PlayButton onClick={() => setVideoOpen(true)} />
+          <ModalVideo
+            channel="youtube"
+            isOpen={isVideoOpen}
+            videoId="HwSKkKrUzUk"
+            onClose={() => setVideoOpen(false)}
+          />
         </ContentDetails>
       </KingpassAction>
       <KingpassContent>
@@ -77,6 +86,7 @@ const ContentDetails = styled.div`
 `;
 
 const KingpassContent = styled.div`
+  padding-top: 2rem;
   max-width: 1070px;
   font-size: 17px;
   display: flex;

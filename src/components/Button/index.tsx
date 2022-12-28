@@ -33,9 +33,14 @@ const AwesomeButtonContainer = styled.button`
   }
 `;
 
-export const PlayButton = () => {
+interface playProps {
+  onClick: () => void;
+}
+
+export const PlayButton = (props: playProps) => {
+  const { onClick } = props;
   return (
-    <ButtonContainer>
+    <ButtonContainer onClick={onClick}>
       <Button>
         <PlayIcon>
           <BsPlayFill />
@@ -50,6 +55,7 @@ const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+  cursor: pointer;
 `;
 
 const Button = styled.div`

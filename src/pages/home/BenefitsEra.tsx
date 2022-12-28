@@ -54,7 +54,7 @@ const BenefitsEraContainer = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 53px;
-  padding-top: 7rem;
+  padding-top: 4rem;
 `;
 
 const BenefitsTitle = styled.div`
