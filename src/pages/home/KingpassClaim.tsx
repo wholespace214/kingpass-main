@@ -61,6 +61,8 @@ const ClaimContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding-left: 20px;
+  padding-right: 20px;
 `;
 
 const ClaimTitle = styled.div`
@@ -76,6 +78,7 @@ const ClaimTitle = styled.div`
   @media screen and (max-width: 450px) {
     max-width: 150px;
     line-height: 35px;
+    text-align: left;
   }
 `;
 
@@ -87,8 +90,6 @@ const ClaimContent = styled.div`
   line-height: 30px;
   @media screen and (max-width: 450px) {
     font-size: 12px;
-    padding-left: 20px;
-    padding-right: 20px;
   }
 `;
 

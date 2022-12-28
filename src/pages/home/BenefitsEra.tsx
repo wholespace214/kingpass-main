@@ -55,6 +55,8 @@ const BenefitsEraContainer = styled.div`
   align-items: center;
   gap: 53px;
   padding-top: 4rem;
+  padding-right: 20px;
+  padding-left: 20px;
 `;
 
 const BenefitsTitle = styled.div`
