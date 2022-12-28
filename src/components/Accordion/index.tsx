@@ -48,6 +48,9 @@ const AccordionContainer = styled.div`
       height: 0px;
     }
   }
+  @media screen and (max-width: 450px) {
+    font-size: 12px;
+  }
 `;
 
 const AccordionBox = styled.div`

@@ -2,6 +2,7 @@ import { FooterLogo } from 'src/config/images';
 import styled from 'styled-components';
 import { FaTelegramPlane, FaTwitter, FaYoutube, FaGithub } from 'react-icons/fa';
 import { BsMedium } from 'react-icons/bs';
+import { SiGitbook } from 'react-icons/si';
 
 export const Footer = () => {
   return (
@@ -29,9 +30,9 @@ export const Footer = () => {
             <FaYoutube style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
-        <a rel="noopener noreferrer">
+        <a href={'https://king-finance.gitbook.io/king-whitepaper'} rel="noopener noreferrer">
           <Icon>
-            <FaGithub style={{ width: '100%', height: 'auto' }} />
+            <SiGitbook style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
         <a href={'https://medium.com/@kingfinance'} rel="noopener noreferrer">

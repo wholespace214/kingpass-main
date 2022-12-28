@@ -46,11 +46,12 @@ export const KingpassClaim = () => {
 };
 
 const KingpassClaimContainer = styled.div`
-  padding-top: 11rem;
+  padding-top: 8rem;
   display: flex;
   gap: 30px;
   @media screen and (max-width: 1356px) {
     flex-direction: column;
+    padding-top: 7rem;
   }
   @media screen and (max-width: 768px) {
     padding-top: 61px;
@@ -67,18 +68,15 @@ const ClaimContentContainer = styled.div`
 
 const ClaimTitle = styled.div`
   font-size: 28px;
+  text-align: left;
   line-height: 40px;
-  max-width: 250px;
   @media screen and (max-width: 1356px) {
     width: 100%;
-    font-size: 25px;
     text-align: center;
-    max-width: none;
   }
   @media screen and (max-width: 450px) {
-    max-width: 150px;
     line-height: 35px;
-    text-align: left;
+    font-size: 17px;
   }
 `;
 
@@ -88,8 +86,10 @@ const ClaimContent = styled.div`
   gap: 10px;
   font-size: 17px;
   line-height: 30px;
+  padding-top: 15px;
   @media screen and (max-width: 450px) {
     font-size: 12px;
+    padding-top: 0;
   }
 `;
 
@@ -113,14 +113,23 @@ const ClaimCardContainer = styled.div`
 const ClaimCard = styled.div`
   border-radius: 24px;
   background-color: rgba(0, 0, 0, 0.45);
-  padding: 72px 45px;
-  width: 210px;
+  padding: 72px 30px;
+  width: 238px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: 35px;
   @media screen and (max-width: 640px) {
     padding: 72px 20px;
+  }
+  @media screen and (max-width: 500px) {
+    padding: 42px 45px;
+  }
+
+  @media screen and (max-width: 390px) {
+    padding: 42px 45px;
+    margin: 0 20px;
+    width: fit-content;
   }
 `;
 
