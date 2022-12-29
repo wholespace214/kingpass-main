@@ -2,30 +2,8 @@ import { Accordion } from 'src/components/Accordion';
 import { KingFloki, KingLand, KingPad } from 'src/config/images';
 import styled from 'styled-components';
 
-const AccordArr = [
-  {
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  },
-  {
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  },
-  {
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  },
-  {
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  }
-];
-
 export const FaqSection = () => {
+  // const [isOpen, setOpen] = useState('');
   return (
     <FaqSectionContainer>
       <KingWorldTitle>
@@ -44,9 +22,18 @@ export const FaqSection = () => {
       </KingWorldLinks>
       <FaqLetter>FAQ’s</FaqLetter>
       <AccordionContainer>
-        {AccordArr.map((item, index) => (
-          <Accordion title={item.title} content={item.content} key={index} />
-        ))}
+        {/* {AccordArr.map((item, index) => (
+          <Accordion
+            name={item.name}
+            title={item.title}
+            content={item.content}
+            // isOpen={isOpen}
+            // setOpen={setOpen}
+            id={item.id}
+            key={index}
+          />
+        ))} */}
+        <Accordion />
       </AccordionContainer>
     </FaqSectionContainer>
   );

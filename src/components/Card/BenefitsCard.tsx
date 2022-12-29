@@ -8,8 +8,6 @@ interface BenefitsCardProps {
 
 export const BenefitsCard = (props: BenefitsCardProps) => {
   const { idx, title, content } = props;
-  // eslint-disable-next-line no-console
-  console.log('idx: ', idx);
   return (
     <CardContainer>
       <CardNumber>{idx}</CardNumber>

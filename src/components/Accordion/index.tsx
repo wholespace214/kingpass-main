@@ -1,32 +1,84 @@
 import { useState, useEffect, useRef } from 'react';
+import { SiRedhatopenshift } from 'react-icons/si';
 import styled from 'styled-components';
 
-interface AccordionProps {
-  title: string;
-  content: string;
-}
+// interface AccordionProps {
+//   title: string;
+//   name: string;
+//   content: string;
+//   // isOpen: string;
+//   // setOpen: (value: string) => void;
+//   id: number;
+// }
 
-export const Accordion = (props: AccordionProps) => {
-  const { title, content } = props;
+const AccordArr = [
+  {
+    id: 0,
+    name: 'panel-0',
+    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+  },
+  {
+    id: 1,
+    name: 'panel-1',
+    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+  },
+  {
+    id: 2,
+    name: 'panel-2',
+    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+  },
+  {
+    id: 3,
+    name: 'panel-3',
+    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+  }
+];
+
+export const Accordion = () => {
+  // const { title, name, content, id } = props;
   const boardRef = useRef(null);
   const [height, setHeight] = useState(0);
-  const [isOpen, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState<string | false>(false);
+  // useEffect(() => {
+  //   if
+  // }, [isOpen])
+  // const [isFaqOpen, setFaqOpen] = useState(false);
   useEffect(() => {
     if (boardRef.current !== null) {
       const _height = (boardRef.current as any).scrollHeight;
       setHeight(_height);
     }
   });
-  return (
-    <AccordionContainer aria-expanded={isOpen}>
-      <AccordionBox onClick={() => setOpen(!isOpen)}>{title}</AccordionBox>
 
-      <AccordionBoard className="board" ref={boardRef} style={{ height: `${isOpen ? height : 0}px` }}>
-        <AccordionContent className="content" style={{ maxHeight: `${isOpen ? height : 0}px` }}>
-          {content}
-        </AccordionContent>
-      </AccordionBoard>
-    </AccordionContainer>
+  const handleChange = (panel: string) => {
+    if (expanded === panel) setExpanded(false);
+    else setExpanded(panel);
+  };
+  return (
+    <>
+      {AccordArr.map((item) => (
+        <AccordionContainer aria-expanded={expanded === item.name} key={item.id}>
+          <AccordionBox onClick={() => handleChange(item.name)}>{item.title}</AccordionBox>
+          <AccordionBoard
+            className="board"
+            ref={boardRef}
+            style={{ height: `${expanded === item.name ? height : 0}px` }}
+          >
+            <AccordionContent className="content" style={{ maxHeight: `${expanded === item.name ? height : 0}px` }}>
+              {item.content}
+            </AccordionContent>
+          </AccordionBoard>
+        </AccordionContainer>
+      ))}
+    </>
   );
 };
 
