@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AwesomeButton } from 'src/components/Button';
+import { CustomConnectButton } from 'src/components/Button';
 import { AwesomeDropDown } from 'src/components/Dropdown';
 import { HeaderLogo } from 'src/components/HeaderLogo';
 import { FiMenu } from 'react-icons/fi';
@@ -66,7 +66,7 @@ export const HeaderContent = (props: HeaderProps) => {
         </HeaderNav>
         <HeaderButtons>
           <AwesomeDropDown arrData={statusArr} name="status" state={state.status} setState={handleState} />
-          <AwesomeButton />
+          <CustomConnectButton />
         </HeaderButtons>
       </HeaderAction>
     </HeaderContainer>
