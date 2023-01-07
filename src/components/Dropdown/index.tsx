@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-
 interface AwesomeDropDownProps {
   arrData: any;
   name: string;
@@ -29,13 +28,13 @@ export const AwesomeDropDown = (props: AwesomeDropDownProps) => {
 
   return (
     <DropDownContainer data-aria-expanded={isOpen} ref={DsDropRef}>
-      <DropdownButton className="dbtn" onClick={() => SetOpen(!isOpen)}>
-        <ItemContent color={state.color} content={state.content} />
+      <DropdownButton className="dbtn" onClick={() => SetOpen(!isOpen)} style={{ opacity: state.opacity }}>
+        <ItemContent color={state.color} content={state.content} opacityNumber={state.opacity} />
       </DropdownButton>
       <DropDownContent className="dcontent" style={{ transform: isOpen ? 'scale(1)' : 'scale(0)' }}>
         {arrData.map((item: any, index: number) => (
-          <DropdownItem key={index} onClick={() => handleItemClicked(item)}>
-            <ItemContent color={item.color} content={item.content} />
+          <DropdownItem key={index} onClick={() => handleItemClicked(item)} style={{ opacity: item.opacity }}>
+            <ItemContent color={item.color} content={item.content} opacityNumber={item.opacity} />
           </DropdownItem>
         ))}
       </DropDownContent>
@@ -46,12 +45,13 @@ export const AwesomeDropDown = (props: AwesomeDropDownProps) => {
 interface ItemContentProps {
   color: string;
   content: string;
+  opacityNumber: number;
 }
 
 const ItemContent = (props: ItemContentProps) => {
-  const { color, content } = props;
+  const { color, content, opacityNumber } = props;
   return (
-    <ItemContentContainer>
+    <ItemContentContainer style={{ opacity: opacityNumber }}>
       <StatusCircle style={{ backgroundColor: color }} />
       {content}
     </ItemContentContainer>

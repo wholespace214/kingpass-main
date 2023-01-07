@@ -1,19 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { CustomConnectButton } from 'src/components/Button';
 import { AwesomeDropDown } from 'src/components/Dropdown';
 import { HeaderLogo } from 'src/components/HeaderLogo';
 import { FiMenu } from 'react-icons/fi';
 import styled from 'styled-components';
 import { Modal } from 'src/components/Modal';
+import { useAccount } from 'wagmi';
+import { getKingpadStatus } from 'src/contracts';
+import { useWeb3Store } from 'src/context/web3context';
 
-const statusArr = [
+interface statusArrProps {
+  color: string;
+  content: string;
+  opacity: number;
+}
+
+const statusArr: statusArrProps[] = [
   {
     color: '#51FFBC',
-    content: 'Active kingpass'
+    content: 'Active kingpass',
+    opacity: 1
   },
   {
     color: '#F46F6F',
-    content: 'Inactive kingpass'
+    content: 'Inactive kingpass',
+    opacity: 1
   }
 ];
 
@@ -21,15 +32,32 @@ const initialState = {
   isSideOpen: false,
   status: {
     color: '#4B4B4B',
-    content: 'Kingpass status'
+    content: 'Kingpass status',
+    opacity: 0.5
   }
 };
 
 export const Header = () => {
   const [state, setState] = useState(initialState);
-  const handleStateChanged = (prop: string, value: string | number | boolean) => {
+  const handleStateChanged = (prop: string, value: string | number | boolean | statusArrProps) => {
     setState({ ...state, [prop]: value });
   };
+
+  const { isInitialized } = useWeb3Store();
+  const { address } = useAccount();
+  useEffect(() => {
+    if (isInitialized) {
+      (async () => {
+        const kingpadStatus = await getKingpadStatus(address);
+
+        if (kingpadStatus === true) {
+          handleStateChanged('status', statusArr[0]);
+        } else if (kingpadStatus === false) {
+          handleStateChanged('status', statusArr[1]);
+        }
+      })();
+    }
+  }, [isInitialized]);
 
   return (
     <>

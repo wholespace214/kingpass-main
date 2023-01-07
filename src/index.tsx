@@ -2,20 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { RainbowKitProvider, connectorsForWallets, Theme } from '@rainbow-me/rainbowkit';
-import {
-  metaMaskWallet,
-  ledgerWallet,
-  walletConnectWallet,
-  argentWallet,
-  braveWallet,
-  imTokenWallet,
-  omniWallet,
-  rainbowWallet,
-  trustWallet
-} from '@rainbow-me/rainbowkit/wallets';
+import { RainbowKitProvider, connectorsForWallets } from '@rainbow-me/rainbowkit';
+import { metaMaskWallet, trustWallet } from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { bsc } from 'wagmi/chains';
+import { bscTestnet } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import '@rainbow-me/rainbowkit/styles.css';
@@ -27,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 window.Buffer = require('buffer').Buffer;
 
 const { chains, provider } = configureChains(
-  [bsc],
+  [bscTestnet],
   [alchemyProvider({ apiKey: '6mDnh0_FqrDQzdcOCI_O5NkDs70x4VYp' }), publicProvider()]
 );
 
@@ -36,14 +26,14 @@ const connectors = connectorsForWallets([
     groupName: 'Select your wallet',
     wallets: [
       metaMaskWallet({ chains }),
-      trustWallet({ chains }),
-      walletConnectWallet({ chains }),
-      ledgerWallet({ chains }),
-      braveWallet({ chains }),
-      argentWallet({ chains }),
-      imTokenWallet({ chains }),
-      omniWallet({ chains }),
-      rainbowWallet({ chains })
+      trustWallet({ chains })
+      // walletConnectWallet({ chains }),
+      // ledgerWallet({ chains }),
+      // braveWallet({ chains }),
+      // argentWallet({ chains }),
+      // imTokenWallet({ chains }),
+      // omniWallet({ chains }),
+      // rainbowWallet({ chains })
     ]
   }
 ]);
