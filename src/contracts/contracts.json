@@ -1,6 +1,6 @@
 {
   "KINGpass_abi": {
-    "address": "0x406E1D15Bdf7F3e64Eb2AE4D52e233F1152cD268",
+    "address": "0x28b7315ED824449f179f91e0086378986870961D",
     "abi": [
       {
         "inputs": [],
@@ -49,22 +49,7 @@
       },
       {
         "inputs": [],
-        "name": "TransferCallerNotOwnerNorApproved",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "TransferFromIncorrectOwner",
-        "type": "error"
-      },
-      {
-        "inputs": [],
         "name": "TransferToNonERC721ReceiverImplementer",
-        "type": "error"
-      },
-      {
-        "inputs": [],
-        "name": "TransferToZeroAddress",
         "type": "error"
       },
       {
@@ -131,6 +116,45 @@
         "anonymous": false,
         "inputs": [
           {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          }
+        ],
+        "name": "DeactivatedKingPass",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "who",
+            "type": "address"
+          }
+        ],
+        "name": "DeletedSubscription",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          }
+        ],
+        "name": "FirstSubscription",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
             "indexed": false,
             "internalType": "uint8",
             "name": "version",
@@ -138,6 +162,44 @@
           }
         ],
         "name": "Initialized",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amountLocked",
+            "type": "uint256"
+          }
+        ],
+        "name": "NewKingPass",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "bool",
+            "name": "state",
+            "type": "bool"
+          }
+        ],
+        "name": "OwnerBlacklistPass",
         "type": "event"
       },
       {
@@ -157,6 +219,190 @@
           }
         ],
         "name": "OwnershipTransferred",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "who",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "currency",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "activeUntil",
+            "type": "uint256"
+          }
+        ],
+        "name": "RenewedSubscription",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "bool",
+            "name": "state",
+            "type": "bool"
+          }
+        ],
+        "name": "SetAdmin",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "discountPrice",
+            "type": "uint256"
+          }
+        ],
+        "name": "SetAmountToDiscountedPrice",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          }
+        ],
+        "name": "SetFeeReciver",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "contractAddress",
+            "type": "address"
+          }
+        ],
+        "name": "SetKing",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "currency",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "bool",
+            "name": "state",
+            "type": "bool"
+          }
+        ],
+        "name": "SetPermittedPayments",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          }
+        ],
+        "name": "SetRelayer",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "minTok",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "minlocktime",
+            "type": "uint256"
+          }
+        ],
+        "name": "SetSettingPassLock",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "subTime",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "pricePass",
+            "type": "uint256"
+          }
+        ],
+        "name": "SetSubscriptionInfo",
+        "type": "event"
+      },
+      {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "base",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "hashActive",
+            "type": "string"
+          },
+          {
+            "indexed": false,
+            "internalType": "string",
+            "name": "hashNotAct",
+            "type": "string"
+          }
+        ],
+        "name": "SetUris",
         "type": "event"
       },
       {
@@ -192,6 +438,18 @@
             "internalType": "address",
             "name": "who",
             "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "currency",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "activeUntil",
+            "type": "uint256"
           }
         ],
         "name": "newSubscription",
@@ -205,6 +463,18 @@
             "internalType": "address",
             "name": "who",
             "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "address",
+            "name": "currency",
+            "type": "address"
+          },
+          {
+            "indexed": false,
+            "internalType": "uint256",
+            "name": "activeUntil",
+            "type": "uint256"
           },
           {
             "indexed": false,
@@ -415,6 +685,19 @@
         "inputs": [
           {
             "internalType": "address",
+            "name": "new_adrs",
+            "type": "address"
+          }
+        ],
+        "name": "changeRenovationAddress",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
             "name": "who",
             "type": "address"
           }
@@ -472,7 +755,7 @@
             "type": "address"
           }
         ],
-        "name": "fisrtNft",
+        "name": "firstNft",
         "outputs": [
           {
             "internalType": "bool",
@@ -1002,6 +1285,11 @@
             "internalType": "address",
             "name": "newAdmin",
             "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "state",
+            "type": "bool"
           }
         ],
         "name": "set_admin",
@@ -1325,6 +1613,25 @@
         "name": "transferOwnership",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "internalType": "address",
+            "name": "who",
+            "type": "address"
+          }
+        ],
+        "name": "typeOfUser",
+        "outputs": [
+          {
+            "internalType": "uint256",
+            "name": "",
+            "type": "uint256"
+          }
+        ],
+        "stateMutability": "view",
         "type": "function"
       },
       {

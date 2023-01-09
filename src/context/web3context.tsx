@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAccount, useProvider } from 'wagmi';
+import { useAccount, useProvider, useSigner } from 'wagmi';
 import { initializeWeb3 } from 'src/contracts';
 
 interface Web3ContextProps {
-  provider: any;
   isConnected: boolean;
   isInitialized: boolean;
 }
@@ -17,18 +16,21 @@ const Web3Context = createContext<Web3ContextProps | null>(null);
 export const Web3Provider = (props: propsType) => {
   const { isConnected } = useAccount();
   const provider = useProvider();
-  const [isInitialized, setInitialized] = useState(false);
+  const { data: signer } = useSigner();
 
+  const [isInitialized, setInitialized] = useState(false);
   useEffect(() => {
     if (isConnected) {
       (async () => {
-        await initializeWeb3(provider);
+        // eslint-disable-next-line no-console
+        // console.log(signer);
+        await initializeWeb3(provider, signer);
         setInitialized(true);
       })();
     }
-  }, [isConnected, provider]);
+  }, [isConnected, signer]);
 
-  return <Web3Context.Provider value={{ isConnected, provider, isInitialized }}>{props.children}</Web3Context.Provider>;
+  return <Web3Context.Provider value={{ isConnected, isInitialized }}>{props.children}</Web3Context.Provider>;
 };
 
 export const useWeb3Store = () => {

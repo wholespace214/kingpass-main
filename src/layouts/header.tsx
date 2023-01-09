@@ -17,6 +17,11 @@ interface statusArrProps {
 
 const statusArr: statusArrProps[] = [
   {
+    color: '#4B4B4B',
+    content: 'No Kingpass',
+    opacity: 1
+  },
+  {
     color: '#51FFBC',
     content: 'Active kingpass',
     opacity: 1
@@ -49,12 +54,9 @@ export const Header = () => {
     if (isInitialized) {
       (async () => {
         const kingpadStatus = await getKingpadStatus(address);
-
-        if (kingpadStatus === true) {
-          handleStateChanged('status', statusArr[0]);
-        } else if (kingpadStatus === false) {
-          handleStateChanged('status', statusArr[1]);
-        }
+        // eslint-disable-next-line no-console
+        console.log('KingpasStatus: ', kingpadStatus);
+        handleStateChanged('status', statusArr[kingpadStatus ?? 0]);
       })();
     }
   }, [isInitialized]);
@@ -93,7 +95,7 @@ export const HeaderContent = (props: HeaderProps) => {
           <NavItem>Docs</NavItem>
         </HeaderNav>
         <HeaderButtons>
-          <AwesomeDropDown arrData={statusArr} name="status" state={state.status} setState={handleState} />
+          <AwesomeDropDown state={state.status} />
           <CustomConnectButton />
         </HeaderButtons>
       </HeaderAction>

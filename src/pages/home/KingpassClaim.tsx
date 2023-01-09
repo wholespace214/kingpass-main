@@ -1,7 +1,23 @@
-import { KingLogo } from 'src/config/images';
+import { useEffect, useState } from 'react';
+import { KingLogo, KingPassLogo } from 'src/config/images';
+import { useWeb3Store } from 'src/context/web3context';
+import { getTypeofUser, handleClaim } from 'src/contracts';
 import styled from 'styled-components';
+import { useAccount } from 'wagmi';
 
 export const KingpassClaim = () => {
+  const { address } = useAccount();
+  const { isInitialized } = useWeb3Store();
+  const [typeOfUser, setTypeOfUser] = useState(0);
+
+  useEffect(() => {
+    if (isInitialized) {
+      (async () => {
+        const _typeOfUser = await getTypeofUser(address);
+        setTypeOfUser(Number(_typeOfUser.toString()));
+      })();
+    }
+  }, [isInitialized]);
   return (
     <KingpassClaimContainer>
       <ClaimContentContainer>
@@ -20,27 +36,92 @@ export const KingpassClaim = () => {
           </p>
         </ClaimContent>
       </ClaimContentContainer>
-      <ClaimCardContainer>
-        <ClaimCard>
-          <CardTitle>Lock your $KING to claim the KINGPASS</CardTitle>
-          <CardAction>
-            <CardButton1>
-              <CardButtonValue>200.000 KING</CardButtonValue>
-              <CardButtonIcon src={KingLogo} alt="card-button-icon" />
-            </CardButton1>
-            <CardButton2>Claim</CardButton2>
-          </CardAction>
-        </ClaimCard>
-        <ClaimCard>
-          <CardTitle>Start your monthly subscription now</CardTitle>
-          <CardAction>
-            <CardButton1>
-              <CardButtonValue>$ 99,99/mo</CardButtonValue>
-            </CardButton1>
-            <CardButton2>Start</CardButton2>
-          </CardAction>
-        </ClaimCard>
-      </ClaimCardContainer>
+      {typeOfUser === 0 && (
+        <ClaimCardContainer>
+          <ClaimCard>
+            <CardTitle>
+              <p>Lock your $KING to </p>
+              <p>claim the KINGPASS</p>
+            </CardTitle>
+            <CardAction>
+              <CardButton1>
+                <CardButtonValue>200.000 KING</CardButtonValue>
+                <CardButtonIcon src={KingLogo} alt="card-button-icon" />
+              </CardButton1>
+              <CardButton2
+                onClick={() => {
+                  handleClaim();
+                }}
+              >
+                Claim
+              </CardButton2>
+            </CardAction>
+          </ClaimCard>
+          <ClaimCard>
+            <CardTitle>
+              <p>Start your monthly</p> <p>subscription now</p>
+            </CardTitle>
+            <CardAction>
+              <CardButton1>
+                <CardButtonValue>$ 99,99/mo</CardButtonValue>
+              </CardButton1>
+              <CardButton2>Start</CardButton2>
+            </CardAction>
+          </ClaimCard>
+        </ClaimCardContainer>
+      )}
+
+      {typeOfUser === 1 && (
+        <ClaimCardContainer>
+          <ClaimCard>
+            <CardTitle>
+              <p>Congratulations</p>
+              <p>You are a</p>
+              <p>Kingpass holder</p>
+            </CardTitle>
+            <CardImg>
+              <Img src={KingPassLogo} alt="kingpass-logo" />
+            </CardImg>
+          </ClaimCard>
+          <ClaimCard>
+            <CardTitle>
+              <p>Withdraw your $KING</p>
+              <p>to unclaim the Kingpass</p>
+            </CardTitle>
+            <CardAction>
+              <CardButton1>
+                <CardButtonValue>200.000 KING</CardButtonValue>
+                <CardButtonIcon src={KingLogo} alt="card-button-icon" />
+              </CardButton1>
+              <CardButton2>Withdraw</CardButton2>
+            </CardAction>
+          </ClaimCard>
+        </ClaimCardContainer>
+      )}
+
+      {typeOfUser === 2 && (
+        <ClaimCardContainer>
+          <ClaimCard>
+            <CardTitle>
+              <p>Congratulations</p>
+              <p>You are a</p>
+              <p>Kingpass holder</p>
+            </CardTitle>
+            <CardImg>
+              <Img src={KingPassLogo} alt="kingpass-logo" />
+            </CardImg>
+          </ClaimCard>
+          <ClaimCard>
+            <CardTitle>
+              <p>Cancel yours</p>
+              <p>Subscription</p>
+            </CardTitle>
+            <CardAction>
+              <CardButton2>Cancel</CardButton2>
+            </CardAction>
+          </ClaimCard>
+        </ClaimCardContainer>
+      )}
     </KingpassClaimContainer>
   );
 };
@@ -138,6 +219,10 @@ const CardTitle = styled.div`
   font-family: 'gotham-bold';
   color: #ffe3fd;
   text-align: center;
+  white-space: nowrap;
+  p {
+    line-height: 10px;
+  }
   @media screen and (max-width: 640px) {
     font-size: 16px;
   }
@@ -198,4 +283,15 @@ const CardButton2 = styled.button`
     height: 45px;
     font-size: 13px;
   }
+`;
+
+const CardImg = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
+
+const Img = styled.img`
+  width: 150px;
+  height: auto;
 `;
