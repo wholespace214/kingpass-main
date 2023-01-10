@@ -18,8 +18,6 @@ export const initializeWeb3 = async (provider_: any, signer_: any) => {
 
 export const getKingpadStatus = async (address: string | undefined) => {
   const activeStatus = await kingPass.checkIfPassActive(address);
-  const gasLimit = await kingPass.estimateGas.checkIfPassActive(address);
-  console.log({ gasLimit });
   const hasKingpass = await kingPass.firstNft(address);
   if (!hasKingpass) {
     return 0;
@@ -38,11 +36,12 @@ export const getTypeofUser = async (address: string | undefined) => {
 export const handleClaim = async () => {
   const kingPassWithSigner = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, signer);
   console.log({ kingPassWithSigner, kingPass });
-  const gasLimit = await kingPassWithSigner.estimateGas.activateKingPass();
-  const gasPrice = await provider.getGasPrice();
-  console.log({ gasLimit, gasPrice });
+  // const gasLimit = await kingPassWithSigner.estimateGas.activateKingPass();
+  // const gasPrice = await provider.getGasPrice();
+  // console.log({ gasLimit, gasPrice });
 
-  await kingPassWithSigner.activateKingPass();
+  const tx2 = await kingPassWithSigner.activateKingPass();
+  await tx2.wait();
 };
 
 export { kingPass };
