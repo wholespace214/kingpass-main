@@ -11,7 +11,7 @@ let kingPass: any = null;
 let kingPassWithSigner:any = null;
 
 export const initializeWeb3 = async (provider_: any, signer_: any) => {
-  kingPassWithSigner = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, signer);
+  kingPassWithSigner = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, signer_);
   kingPass = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, provider_);
 
   provider = provider_;
@@ -48,13 +48,12 @@ export const handleStartSubScription = async () => {
 }
 
 export const handleKingpassWithdraw = async () => {
-  const tx = await kingPass.deactivateKingPass();
+  const tx = await kingPassWithSigner.deactivateKingPass();
   await tx.wait();
 }
 
 export const handleSubscriptionCancel = async () => {
-  const tx = await kingPass.deactivateSubscription();
+  const tx = await kingPassWithSigner.deactivateSubscription();
   await tx.wait();
 }
 
-export { kingPass };
