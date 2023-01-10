@@ -8,7 +8,10 @@ let provider: any = null;
 
 let kingPass: any = null;
 
+let kingPassWithSigner:any = null;
+
 export const initializeWeb3 = async (provider_: any, signer_: any) => {
+  kingPassWithSigner = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, signer);
   kingPass = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, provider_);
 
   provider = provider_;
@@ -18,8 +21,6 @@ export const initializeWeb3 = async (provider_: any, signer_: any) => {
 
 export const getKingpadStatus = async (address: string | undefined) => {
   const activeStatus = await kingPass.checkIfPassActive(address);
-  const gasLimit = await kingPass.estimateGas.checkIfPassActive(address);
-  console.log({ gasLimit });
   const hasKingpass = await kingPass.firstNft(address);
   if (!hasKingpass) {
     return 0;
@@ -36,13 +37,24 @@ export const getTypeofUser = async (address: string | undefined) => {
 };
 
 export const handleClaim = async () => {
-  const kingPassWithSigner = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, signer);
-  console.log({ kingPassWithSigner, kingPass });
-  const gasLimit = await kingPassWithSigner.estimateGas.activateKingPass();
-  const gasPrice = await provider.getGasPrice();
-  console.log({ gasLimit, gasPrice });
-
-  await kingPassWithSigner.activateKingPass();
+  const tx = await kingPassWithSigner.activateKingPass();
+  await tx.wait();
 };
+
+export const handleStartSubScription = async () => {
+  // const tx = await usdt.approve(kingPass_address, await kingPass.pricePass() * months);
+  // await tx.wait();
+  // await kingPass.buyPass(1, usdtAddress, true);
+}
+
+export const handleKingpassWithdraw = async () => {
+  const tx = await kingPass.deactivateKingPass();
+  await tx.wait();
+}
+
+export const handleSubscriptionCancel = async () => {
+  const tx = await kingPass.deactivateSubscription();
+  await tx.wait();
+}
 
 export { kingPass };

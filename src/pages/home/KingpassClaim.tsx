@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { KingLogo, KingPassLogo } from 'src/config/images';
 import { useWeb3Store } from 'src/context/web3context';
-import { getTypeofUser, handleClaim } from 'src/contracts';
+import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel } from 'src/contracts';
 import styled from 'styled-components';
 import { useAccount } from 'wagmi';
 
@@ -65,7 +65,9 @@ export const KingpassClaim = () => {
               <CardButton1>
                 <CardButtonValue>$ 99,99/mo</CardButtonValue>
               </CardButton1>
-              <CardButton2>Start</CardButton2>
+              <CardButton2 onClick={() => {
+                handleStartSubScription();
+              }}>Start</CardButton2>
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>
@@ -93,7 +95,7 @@ export const KingpassClaim = () => {
                 <CardButtonValue>200.000 KING</CardButtonValue>
                 <CardButtonIcon src={KingLogo} alt="card-button-icon" />
               </CardButton1>
-              <CardButton2>Withdraw</CardButton2>
+              <CardButton2 onClick={() => {handleKingpassWithdraw();}}>Withdraw</CardButton2>
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>
@@ -117,7 +119,7 @@ export const KingpassClaim = () => {
               <p>Subscription</p>
             </CardTitle>
             <CardAction>
-              <CardButton2>Cancel</CardButton2>
+              <CardButton2 onClick={() => {handleSubscriptionCancel();}}>Cancel</CardButton2>
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>
