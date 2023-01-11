@@ -2,6 +2,7 @@
 
 import { ethers } from 'ethers';
 import contracts from './contracts.json';
+import { erc20ABI } from 'wagmi'
 
 let signer: any = null;
 let provider: any = null;
@@ -9,8 +10,10 @@ let provider: any = null;
 let kingPass: any = null;
 
 let kingPassWithSigner:any = null;
+let kingPassErc20: any = null
 
 export const initializeWeb3 = async (provider_: any, signer_: any) => {
+  kingPassErc20 = new ethers.Contract(contracts.KINGpass_abi.address, erc20ABI, signer_);
   kingPassWithSigner = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, signer_);
   kingPass = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, provider_);
 
@@ -41,10 +44,10 @@ export const handleClaim = async () => {
   await tx.wait();
 };
 
-export const handleStartSubScription = async (months: number, usdt: string) => {
-  // const tx = await usdt.approve(contracts.KINGpass_abi.address, await kingPass.pricePass() * months);
-  // await tx.wait();
-  // await kingPass.buyPass(1, usdt, true);
+export const handleStartSubScription = async (months: number, usdtAddy: string) => {
+  const tx = await kingPassErc20.approve(contracts.KINGpass_abi.address, await kingPass.pricePass() * months);
+  await tx.wait();
+  await kingPass.buyPass(1, usdtAddy, true);
 }
 
 export const handleKingpassWithdraw = async () => {

@@ -3,6 +3,7 @@ import { KingLogo, KingPassLogo, CalendarIcon, StarIcon, BusdIcon } from 'src/co
 import { useWeb3Store } from 'src/context/web3context';
 import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel } from 'src/contracts';
 import styled from 'styled-components';
+import contracts from 'src/contracts/contracts.json'
 import { useAccount } from 'wagmi';
 import { CurrencyDropDown } from 'src/components/Dropdown/Currency';
 
@@ -170,7 +171,7 @@ export const KingpassClaim = () => {
                       <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
                     </ActivateElemContainer>
                   </ActivateElemGroup>
-                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(state.activeMonth, "")}}>
+                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(state.activeMonth, contracts.KINGpass_abi.usdtAddress)}}>
                   Activate
                 </ActivateButton>
                 </ActivateAction>
@@ -225,7 +226,7 @@ export const KingpassClaim = () => {
     <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {state.bonusMonth} month subscription for {state.bonusValue}</ActivateLabel>
       <SubScriptionGroup style={{ paddingTop: "78px" }}>
         <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
-        <ActivateButton style={{ width: "169px", marginBottom: '170px' }}>Activate</ActivateButton>
+        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} onClick={() => {handleStartSubScription(state.bonusMonth, contracts.KINGpass_abi.usdtAddress)}}>Activate</ActivateButton>
       </SubScriptionGroup>
   </ClaimPlanCard>
   </ClaimCardContainer>
