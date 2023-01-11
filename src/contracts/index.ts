@@ -10,10 +10,10 @@ let provider: any = null;
 let kingPass: any = null;
 
 let kingPassWithSigner:any = null;
-let kingPassErc20: any = null
+let currencyContract: any = null
 
 export const initializeWeb3 = async (provider_: any, signer_: any) => {
-  kingPassErc20 = new ethers.Contract(contracts.KINGpass_abi.address, erc20ABI, signer_);
+  currencyContract = new ethers.Contract(contracts.KINGpass_abi.address, erc20ABI, signer_);
   kingPassWithSigner = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, signer_);
   kingPass = new ethers.Contract(contracts.KINGpass_abi.address, contracts.KINGpass_abi.abi, provider_);
 
@@ -44,10 +44,11 @@ export const handleClaim = async () => {
   await tx.wait();
 };
 
-export const handleStartSubScription = async (months: number, usdtAddy: string) => {
-  const tx = await kingPassErc20.approve(contracts.KINGpass_abi.address, await kingPass.pricePass() * months);
+export const handleStartSubScription = async (months: number, usdtAddy: string, status: boolean) => {
+  console.log({ months, usdtAddy, status })
+  const tx = await currencyContract.approve(contracts.KINGpass_abi.address, await kingPass.pricePass() * months);
   await tx.wait();
-  await kingPass.buyPass(1, usdtAddy, true);
+  await kingPass.buyPass(1, usdtAddy, status);
 }
 
 export const handleKingpassWithdraw = async () => {

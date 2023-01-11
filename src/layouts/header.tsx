@@ -22,15 +22,16 @@ const statusArr: statusArrProps[] = [
     opacity: 1
   },
   {
-    color: '#51FFBC',
-    content: 'Active kingpass',
-    opacity: 1
-  },
-  {
     color: '#F46F6F',
     content: 'Inactive kingpass',
     opacity: 1
+  },
+  {
+    color: '#51FFBC',
+    content: 'Active kingpass',
+    opacity: 1
   }
+
 ];
 
 const initialState = {

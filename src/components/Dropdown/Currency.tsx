@@ -2,24 +2,29 @@ import { useState, useRef, useEffect } from 'react'
 import styled from "styled-components"
 import { BusdIcon, UsdcIcon, UsdtIcon } from 'src/config/images'
 import { RiArrowUpSFill, RiArrowDownSFill } from 'react-icons/ri'
+import contracts from 'src/contracts/contracts.json'
 
 interface CurrencyArrProps {
     icon: string;
     name: string;
+    address: string;
 }
 
 const CurrencyArr: CurrencyArrProps[] = [
     {
         icon: BusdIcon,
-        name: "BUSD"
+        name: "BUSD",
+        address: contracts.KINGpass_abi.busdAddress
     },
     {
         icon: UsdtIcon,
-        name: "USDT"
+        name: "USDT",
+        address: contracts.KINGpass_abi.usdtAddress
     },
     {
         icon: UsdcIcon,
-        name: "USDC"
+        name: "USDC",
+        address: contracts.KINGpass_abi.usdcAddress
     }
 ]
 

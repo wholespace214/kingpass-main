@@ -10,12 +10,14 @@ import { CurrencyDropDown } from 'src/components/Dropdown/Currency';
 export const KingpassClaim = () => {
   const initialState: CurrencyArrProps = {
     icon: BusdIcon,
-    name: "BUSD"
+    name: "BUSD",
+    address: contracts.KINGpass_abi.busdAddress
   }
 
   interface CurrencyArrProps {
     icon: string ;
     name: string;
+    address: string;
 }
   const { address } = useAccount();
   const { isInitialized } = useWeb3Store();
@@ -171,7 +173,7 @@ export const KingpassClaim = () => {
                       <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
                     </ActivateElemContainer>
                   </ActivateElemGroup>
-                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(state.activeMonth, contracts.KINGpass_abi.usdtAddress)}}>
+                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(state.activeMonth, state.currency.address, true)}}>
                   Activate
                 </ActivateButton>
                 </ActivateAction>
@@ -196,7 +198,10 @@ export const KingpassClaim = () => {
           </DeletedText>
           <ShowLabel>$ 499,95</ShowLabel>
         </SubscriptionCard>
-        <ActivateButton onClick={() => {handleStateChanged("bonusMonth", 6);handleStateChanged("bonusValue", "$ 499,95");handleStateChanged("subIdx", "1-2-1")}}>Activate</ActivateButton>
+        <ActivateButton onClick={
+          () => {
+            setState({...state, subIdx: '1-2-1', bonusMonth: 6, bonusValue: '$ 499,95'});
+          }}>Activate</ActivateButton>
         <ActivateLabel>Save 1 month</ActivateLabel>
         </SubscriptionCardContainer>
         <SubscriptionCardContainer>
@@ -209,7 +214,10 @@ export const KingpassClaim = () => {
           </DeletedText>
           <ShowLabel>$ 999,90</ShowLabel>
         </SubscriptionCard>
-        <ActivateButton onClick={() => {handleStateChanged("bonusMonth", 12);handleStateChanged("bonusValue", "$ 999,90");handleStateChanged("subIdx", "1-2-1")}}>Activate</ActivateButton>
+        <ActivateButton onClick={
+            () => { 
+              setState({...state, subIdx: '1-2-1', bonusMonth: 12, bonusValue: '$ 999,90'});
+            }}>Activate</ActivateButton>
         <ActivateLabel>Save 2 months</ActivateLabel>
         </SubscriptionCardContainer>
       </SubScriptionGroup>
@@ -226,7 +234,7 @@ export const KingpassClaim = () => {
     <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {state.bonusMonth} month subscription for {state.bonusValue}</ActivateLabel>
       <SubScriptionGroup style={{ paddingTop: "78px" }}>
         <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
-        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} onClick={() => {handleStartSubScription(state.bonusMonth, contracts.KINGpass_abi.usdtAddress)}}>Activate</ActivateButton>
+        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} onClick={() => {handleStartSubScription(state.bonusMonth, state.currency.address, false)}}>Activate</ActivateButton>
       </SubScriptionGroup>
   </ClaimPlanCard>
   </ClaimCardContainer>
