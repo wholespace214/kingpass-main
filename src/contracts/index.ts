@@ -41,10 +41,10 @@ export const handleClaim = async () => {
   await tx.wait();
 };
 
-export const handleStartSubScription = async () => {
-  // const tx = await usdt.approve(kingPass_address, await kingPass.pricePass() * months);
+export const handleStartSubScription = async (months: number, usdt: string) => {
+  // const tx = await usdt.approve(contracts.KINGpass_abi.address, await kingPass.pricePass() * months);
   // await tx.wait();
-  // await kingPass.buyPass(1, usdtAddress, true);
+  // await kingPass.buyPass(1, usdt, true);
 }
 
 export const handleKingpassWithdraw = async () => {

@@ -19,7 +19,7 @@ export const KingpassDetail = () => {
           <ModalVideo
             channel="youtube"
             isOpen={isVideoOpen}
-            videoId="HwSKkKrUzUk"
+            videoId="G-mIgkf0zAs"
             onClose={() => setVideoOpen(false)}
           />
         </ContentDetails>

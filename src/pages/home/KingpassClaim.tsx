@@ -2,13 +2,30 @@ import { useEffect, useState } from 'react';
 import { KingLogo, KingPassLogo } from 'src/config/images';
 import { useWeb3Store } from 'src/context/web3context';
 import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel } from 'src/contracts';
+import { FaCalendarAlt } from 'react-icons/fa'
+import { RiStarLine, RiMoneyDollarCircleFill } from 'react-icons/ri'
 import styled from 'styled-components';
 import { useAccount } from 'wagmi';
+import { CurrencyDropDown } from 'src/components/Dropdown/Currency';
 
 export const KingpassClaim = () => {
+  const initialState = {
+    icon: <RiMoneyDollarCircleFill />,
+    name: "BUSD"
+  }
+
+  interface CurrencyArrProps {
+    icon: React.ReactNode
+    name: string;
+}
   const { address } = useAccount();
   const { isInitialized } = useWeb3Store();
   const [typeOfUser, setTypeOfUser] = useState(0);
+  const [ subIdx, setSubIdx ] = useState("0");
+  const [activeMonth, setActiveMonth] = useState(1);
+  const [currency, setCurrecy] = useState<CurrencyArrProps>(initialState);
+  const [bonusMonth, setBonusMonth] = useState(6);
+  const [bonusValue, setBonusValue] = useState("$ 499,95");
 
   useEffect(() => {
     if (isInitialized) {
@@ -18,6 +35,16 @@ export const KingpassClaim = () => {
       })();
     }
   }, [isInitialized]);
+
+  const handleSetActiveMonth = (status: string) => {
+    if(status === '--') {
+      if(activeMonth > 1) {
+         setActiveMonth(activeMonth - 1);
+      }
+    } else if (status === '++') {
+      setActiveMonth(activeMonth + 1)
+    }
+  }
   return (
     <KingpassClaimContainer>
       <ClaimContentContainer>
@@ -36,42 +63,164 @@ export const KingpassClaim = () => {
           </p>
         </ClaimContent>
       </ClaimContentContainer>
-      {typeOfUser === 0 && (
-        <ClaimCardContainer>
-          <ClaimCard>
-            <CardTitle>
-              <p>Lock your $KING to </p>
-              <p>claim the KINGPASS</p>
-            </CardTitle>
-            <CardAction>
-              <CardButton1>
-                <CardButtonValue>200.000 KING</CardButtonValue>
-                <CardButtonIcon src={KingLogo} alt="card-button-icon" />
-              </CardButton1>
-              <CardButton2
-                onClick={() => {
-                  handleClaim();
-                }}
-              >
-                Claim
-              </CardButton2>
-            </CardAction>
-          </ClaimCard>
-          <ClaimCard>
-            <CardTitle>
-              <p>Start your monthly</p> <p>subscription now</p>
-            </CardTitle>
-            <CardAction>
-              <CardButton1>
-                <CardButtonValue>$ 99,99/mo</CardButtonValue>
-              </CardButton1>
-              <CardButton2 onClick={() => {
-                handleStartSubScription();
-              }}>Start</CardButton2>
-            </CardAction>
-          </ClaimCard>
-        </ClaimCardContainer>
+      {
+        typeOfUser === 0 && subIdx === "0" && (
+          <ClaimCardContainer>
+            <ClaimCard>
+              <CardTitle>
+                <p>Lock your $KING to </p>
+                <p>claim the KINGPASS</p>
+              </CardTitle>
+              <CardAction>
+                <CardButton1>
+                  <CardButtonValue>200.000 KING</CardButtonValue>
+                  <CardButtonIcon src={KingLogo} alt="card-button-icon" />
+                </CardButton1>
+                <CardButton2
+                  onClick={() => {
+                    handleClaim();
+                  }}
+                >
+                  Claim
+                </CardButton2>
+              </CardAction>
+            </ClaimCard>
+            <ClaimCard>
+              <CardTitle>
+                <p>Start your monthly</p> <p>subscription now</p>
+              </CardTitle>
+              <CardAction>
+                <CardButton1>
+                  <CardButtonValue>$ 99,99/mo</CardButtonValue>
+                </CardButton1>
+                <CardButton2 onClick={() => setSubIdx("1")}>Start</CardButton2>
+              </CardAction>
+            </ClaimCard>
+          </ClaimCardContainer>
+        )
+      }
+      {typeOfUser === 0 && subIdx === "1" && (
+        <ClaimPlanCardContainer>
+             <ClaimPlanCard>
+                <BackButton onClick={() => setSubIdx("0")}>Back</BackButton>
+                <PlanCardLabel>Choose your plan</PlanCardLabel>
+                <PlanCardAction>
+                  <PlanSubBox onClick={() => setSubIdx("1-1")}>
+                      <SubBoxLabel>
+                          Monthly Subscription
+                      </SubBoxLabel>
+                      <SubBoxIcon>
+                        <FaCalendarAlt style={{ width: '100%', height: '100%' }} />
+                      </SubBoxIcon>
+                  </PlanSubBox>
+                  <PlanSubBox onClick={() => setSubIdx("1-2")}>
+                      <SubBoxLabel>
+                          Bonus Subscription
+                      </SubBoxLabel>
+                      <SubBoxIcon>
+                        <RiStarLine style={{ width: '100%', height: '100%' }} />
+                      </SubBoxIcon>
+                  </PlanSubBox>
+                </PlanCardAction>
+             </ClaimPlanCard>
+        </ClaimPlanCardContainer>
       )}
+
+      {typeOfUser === 0 && subIdx === "1-1" && (
+        <ClaimPlanCardContainer>
+             <ClaimPlanCard>
+                <BackButton onClick={() => setSubIdx("1")}>Back</BackButton>
+                <PlanCardLabel>Activate your monthly subscription</PlanCardLabel>
+                <ActivateAction>
+                  <ActivateElemGroup>
+                    <ActivateElemContainer>
+                      <ActivateLabel>
+                          Months
+                      </ActivateLabel>
+                      <ActivateElem>
+                          <ElemContainer>
+                          <ElemButton onClick={() => handleSetActiveMonth('--')}>-</ElemButton>
+                          <ShowLabel style={{ width: '17px', textAlign: 'center' }}>{activeMonth}</ShowLabel>
+                          <ElemButton onClick={() => handleSetActiveMonth('++')}>+</ElemButton>
+                          </ElemContainer>
+                      </ActivateElem>
+                    </ActivateElemContainer>
+                    <ActivateElemContainer>
+                      <ActivateLabel>
+                          Price
+                      </ActivateLabel>
+                      <ActivateElem>
+                      <ShowLabel>$ 99,99/mo</ShowLabel>
+                      </ActivateElem>
+                    </ActivateElemContainer>
+                    <ActivateElemContainer>
+                      <ActivateLabel>
+                          Currency
+                      </ActivateLabel>
+                      <CurrencyDropDown state={currency} setState={setCurrecy}/>
+                    </ActivateElemContainer>
+                  </ActivateElemGroup>
+                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(activeMonth, "")}}>
+                  Activate
+                </ActivateButton>
+                </ActivateAction>
+             </ClaimPlanCard>
+        </ClaimPlanCardContainer>
+      )}
+
+{typeOfUser === 0 && subIdx === "1-2" && (
+<ClaimCardContainer>
+  <ClaimPlanCard>
+    <BackButton onClick={() => setSubIdx("1")}>Back</BackButton>
+    <PlanCardLabel>Activate your bonus subscription</PlanCardLabel>
+    <ActivateAction>
+      <SubScriptionGroup>
+        <SubscriptionCardContainer>
+        <SubscriptionCard>
+          <MonthValue>6</MonthValue>
+          <ActivateLabel>Months Subscription</ActivateLabel>
+          <DeletedText>
+          <ShowLabel style={{ marginTop: '8px' }}>$ 599,94</ShowLabel>
+          <Line />
+          </DeletedText>
+          <ShowLabel>$ 499,95</ShowLabel>
+        </SubscriptionCard>
+        <ActivateButton onClick={() => {setBonusMonth(6);setBonusValue("$ 499,95");setSubIdx("1-2-1")}}>Activate</ActivateButton>
+        <ActivateLabel>Save 1 month</ActivateLabel>
+        </SubscriptionCardContainer>
+        <SubscriptionCardContainer>
+        <SubscriptionCard>
+        <MonthValue>12</MonthValue>
+          <ActivateLabel>Months Subscription</ActivateLabel>
+          <DeletedText>
+          <ShowLabel style={{ marginTop: '8px' }}>$ 1199,88</ShowLabel>
+          <Line />
+          </DeletedText>
+          <ShowLabel>$ 999,90</ShowLabel>
+        </SubscriptionCard>
+        <ActivateButton onClick={() => {setBonusMonth(12);setBonusValue("$ 999,90");setSubIdx("1-2-1")}}>Activate</ActivateButton>
+        <ActivateLabel>Save 2 months</ActivateLabel>
+        </SubscriptionCardContainer>
+      </SubScriptionGroup>
+    </ActivateAction>
+  </ClaimPlanCard>
+</ClaimCardContainer>
+)}
+
+{typeOfUser === 0 && subIdx === "1-2-1" && (
+  <ClaimCardContainer>
+  <ClaimPlanCard>
+  <BackButton onClick={() => setSubIdx("1-2")}>Back</BackButton>
+    <PlanCardLabel>Select your preferred currency</PlanCardLabel>
+    <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {bonusMonth} month subscription for {bonusValue}</ActivateLabel>
+      <SubScriptionGroup style={{ paddingTop: "78px" }}>
+        <CurrencyDropDown state={currency} setState={setCurrecy}/>
+        <ActivateButton style={{ width: "169px", marginBottom: '170px' }}>Activate</ActivateButton>
+      </SubScriptionGroup>
+  </ClaimPlanCard>
+  </ClaimCardContainer>
+)
+}
 
       {typeOfUser === 1 && (
         <ClaimCardContainer>
@@ -181,6 +330,7 @@ const ClaimCardContainer = styled.div`
   display: flex;
   gap: 23px;
   border-radius: 23px;
+  width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
   justify-content: center;
   @media screen and (max-width: 1356px) {
@@ -215,6 +365,155 @@ const ClaimCard = styled.div`
     width: fit-content;
   }
 `;
+
+const ClaimPlanCardContainer = styled.div`
+  padding: 70px 30px;
+  border-radius: 23px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  @media screen and (max-width: 1356px) {
+    padding: 0;
+    background: none;
+  }
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
+  /* @media screen and (max-width: 500px) {
+    flex-direction: column;
+    align-items: center;
+  } */
+`
+
+const ClaimPlanCard = styled.div`
+  border-radius: 24px;
+  background-color: rgba(0, 0, 0, 0.45);
+  padding: 21px 34.5px;
+  /* width: 100%; */
+  width: 550px;
+  height: 357px;
+  @media screen and (max-width: 680px) {
+    height: auto;
+  }
+  @media screen and (max-width: 500px) {
+    width: 264px;
+  }
+
+  @media screen and (max-width: 390px) {
+    width: fit-content;
+    margin: 0 20px;
+  }
+`
+
+const BackButton = styled.div`
+  font-size: 13px;
+  width: 100%;
+  text-align: right;
+  cursor: pointer;
+`
+const PlanCardLabel = styled.div`
+  font-size: 21px;
+  color: #FFE3FD;
+  font-family: 'gotham-bold';
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  @media screen and (max-width: 680px) {
+    font-size: 16px;
+  }
+`
+
+const PlanCardAction = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 35px;
+  @media screen and (max-width: 500px) {
+    flex-direction : column;
+    align-items: center;
+  }
+`
+
+const PlanSubBox = styled.div`
+  padding: 50px 39px;
+  border: 2px solid #94EAFE;
+  border-radius: 37px;
+  /* width: 140px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  cursor: pointer;
+`
+
+const SubBoxLabel = styled.div`
+  font-size: 15px;
+  text-align: center;
+`
+
+const SubBoxIcon = styled.div`
+  width: 50px;
+  height: 50px;
+`
+
+const ActivateAction = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+`
+
+const ActivateElemGroup = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-bottom: 50px;
+  @media screen and (max-width: 680px) {
+    flex-direction: column;
+    gap: 30px;
+  }
+`
+
+const ActivateElemContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 13px;
+`
+
+const ActivateLabel = styled.div`
+  font-size: 13px;
+`
+
+const ActivateElem = styled.div`
+  display: flex;
+  border: 2px solid #94EAFE;
+  border-radius: 37px;
+  /* justify-content: space-between; */
+  padding: 20px;
+  width: 125px;
+
+`
+
+const ElemContainer = styled.div`
+  gap: 28px;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`
+
+const ElemButton = styled.div`
+  font-size: 20px;
+  color: #ffe3fd;
+`
+
+const ShowLabel = styled.div`
+  font-size: 20px;
+  color: #FFFFFF;
+`
 
 const CardTitle = styled.div`
   font-size: 20px;
@@ -297,3 +596,74 @@ const Img = styled.img`
   width: 150px;
   height: auto;
 `;
+
+const ActivateButton = styled.div`
+  background: transparent linear-gradient(225deg, #FCB0FE 0%, #BBFFFF 100%) 0% 0% no-repeat padding-box;
+  border-radius: 37px;
+  color: #010101;
+  text-transform: uppercase;
+  font-size: 19px;
+  font-family: 'gotham-bold';
+  width: 187px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 500px) {
+    font-size: 11px;
+    height: 49px;
+  }
+`
+
+const SubScriptionGroup = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 26px;
+  justify-content: center;
+  @media screen and (max-width: 680px) {
+    flex-direction: column;
+    align-items: center;
+  }
+`
+
+const SubscriptionCardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+
+`
+
+const SubscriptionCard = styled.div`
+  width: 219px;
+  height: 156px;
+  border: 2px solid #94EAFE;
+  border-radius: 37px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  @media screen and (max-width: 390px) {
+    width: 170px;
+  }
+`
+
+const MonthValue = styled.div`
+  font-size: 34px;
+  font-family: 'gotham-bold';
+  padding-top: 10px;
+`
+
+const DeletedText = styled.div`
+  position: relative;
+`
+
+const Line = styled.div`
+  position: absolute;
+  width: 120px;
+  height: 1px;
+  left: -20px;
+  top: 18px;
+  background-color: #FFFFFF;
+  transform: rotate(-5deg);
+`
