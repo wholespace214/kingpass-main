@@ -1,48 +1,58 @@
 import { useEffect, useState } from 'react';
-import { KingLogo, KingPassLogo } from 'src/config/images';
+import { KingLogo, KingPassLogo, CalendarIcon, StarIcon, BusdIcon } from 'src/config/images';
 import { useWeb3Store } from 'src/context/web3context';
 import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel } from 'src/contracts';
-import { FaCalendarAlt } from 'react-icons/fa'
-import { RiStarLine, RiMoneyDollarCircleFill } from 'react-icons/ri'
 import styled from 'styled-components';
 import { useAccount } from 'wagmi';
 import { CurrencyDropDown } from 'src/components/Dropdown/Currency';
 
 export const KingpassClaim = () => {
-  const initialState = {
-    icon: <RiMoneyDollarCircleFill />,
+  const initialState: CurrencyArrProps = {
+    icon: BusdIcon,
     name: "BUSD"
   }
 
   interface CurrencyArrProps {
-    icon: React.ReactNode
+    icon: string ;
     name: string;
 }
   const { address } = useAccount();
   const { isInitialized } = useWeb3Store();
-  const [typeOfUser, setTypeOfUser] = useState(0);
-  const [ subIdx, setSubIdx ] = useState("0");
-  const [activeMonth, setActiveMonth] = useState(1);
-  const [currency, setCurrecy] = useState<CurrencyArrProps>(initialState);
-  const [bonusMonth, setBonusMonth] = useState(6);
-  const [bonusValue, setBonusValue] = useState("$ 499,95");
+  // const [typeOfUser, setTypeOfUser] = useState(0);
+  // const [ subIdx, setSubIdx ] = useState("0");
+  // const [activeMonth, setActiveMonth] = useState(1);
+  // const [currency, setCurrecy] = useState(initialState);
+  // const [bonusMonth, setBonusMonth] = useState(6);
+  // const [bonusValue, setBonusValue] = useState("$ 499,95");
+  const [state, setState] = useState({
+    typeOfUser: 0,
+    subIdx: "0",
+    activeMonth: 1,
+    currency: initialState,
+    bonusMonth: 6,
+    bonusValue: "$ 499,95"
+  })
+
+  const handleStateChanged = (prop: string, value: string | number | boolean | CurrencyArrProps) => {
+    setState({ ...state, [prop]: value });
+  };
 
   useEffect(() => {
     if (isInitialized) {
       (async () => {
         const _typeOfUser = await getTypeofUser(address);
-        setTypeOfUser(Number(_typeOfUser.toString()));
+        handleStateChanged("typeOfUser", Number(_typeOfUser.toString()));
       })();
     }
   }, [isInitialized]);
 
   const handleSetActiveMonth = (status: string) => {
     if(status === '--') {
-      if(activeMonth > 1) {
-         setActiveMonth(activeMonth - 1);
+      if(state.activeMonth > 1) {
+        handleStateChanged('activeMonth', state.activeMonth - 1);
       }
     } else if (status === '++') {
-      setActiveMonth(activeMonth + 1)
+      handleStateChanged('activeMonth', state.activeMonth + 1)
     }
   }
   return (
@@ -64,7 +74,7 @@ export const KingpassClaim = () => {
         </ClaimContent>
       </ClaimContentContainer>
       {
-        typeOfUser === 0 && subIdx === "0" && (
+        state.typeOfUser === 0 && state.subIdx === "0" && (
           <ClaimCardContainer>
             <ClaimCard>
               <CardTitle>
@@ -93,32 +103,32 @@ export const KingpassClaim = () => {
                 <CardButton1>
                   <CardButtonValue>$ 99,99/mo</CardButtonValue>
                 </CardButton1>
-                <CardButton2 onClick={() => setSubIdx("1")}>Start</CardButton2>
+                <CardButton2 onClick={() => handleStateChanged("subIdx", "1")}>Start</CardButton2>
               </CardAction>
             </ClaimCard>
           </ClaimCardContainer>
         )
       }
-      {typeOfUser === 0 && subIdx === "1" && (
+      {state.typeOfUser === 0 && state.subIdx === "1" && (
         <ClaimPlanCardContainer>
              <ClaimPlanCard>
-                <BackButton onClick={() => setSubIdx("0")}>Back</BackButton>
+                <BackButton onClick={() => handleStateChanged("subIdx", "0")}>Back</BackButton>
                 <PlanCardLabel>Choose your plan</PlanCardLabel>
                 <PlanCardAction>
-                  <PlanSubBox onClick={() => setSubIdx("1-1")}>
+                  <PlanSubBox onClick={() => handleStateChanged("subIdx", "1-1")}>
                       <SubBoxLabel>
                           Monthly Subscription
                       </SubBoxLabel>
                       <SubBoxIcon>
-                        <FaCalendarAlt style={{ width: '100%', height: '100%' }} />
+                        <img src={CalendarIcon} alt="calendar-icon" style={{ width: '100%', height: '100%' }} />
                       </SubBoxIcon>
                   </PlanSubBox>
-                  <PlanSubBox onClick={() => setSubIdx("1-2")}>
+                  <PlanSubBox onClick={() => handleStateChanged("subIdx", "1-2")}>
                       <SubBoxLabel>
                           Bonus Subscription
                       </SubBoxLabel>
                       <SubBoxIcon>
-                        <RiStarLine style={{ width: '100%', height: '100%' }} />
+                        <img src={StarIcon} alt='star-icon' style={{ width: '100%', height: '100%' }} />
                       </SubBoxIcon>
                   </PlanSubBox>
                 </PlanCardAction>
@@ -126,10 +136,10 @@ export const KingpassClaim = () => {
         </ClaimPlanCardContainer>
       )}
 
-      {typeOfUser === 0 && subIdx === "1-1" && (
+      {state.typeOfUser === 0 && state.subIdx === "1-1" && (
         <ClaimPlanCardContainer>
              <ClaimPlanCard>
-                <BackButton onClick={() => setSubIdx("1")}>Back</BackButton>
+                <BackButton onClick={() => handleStateChanged("subIdx", "1")}>Back</BackButton>
                 <PlanCardLabel>Activate your monthly subscription</PlanCardLabel>
                 <ActivateAction>
                   <ActivateElemGroup>
@@ -140,7 +150,7 @@ export const KingpassClaim = () => {
                       <ActivateElem>
                           <ElemContainer>
                           <ElemButton onClick={() => handleSetActiveMonth('--')}>-</ElemButton>
-                          <ShowLabel style={{ width: '17px', textAlign: 'center' }}>{activeMonth}</ShowLabel>
+                          <ShowLabel style={{ width: '17px', textAlign: 'center' }}>{state.activeMonth}</ShowLabel>
                           <ElemButton onClick={() => handleSetActiveMonth('++')}>+</ElemButton>
                           </ElemContainer>
                       </ActivateElem>
@@ -157,10 +167,10 @@ export const KingpassClaim = () => {
                       <ActivateLabel>
                           Currency
                       </ActivateLabel>
-                      <CurrencyDropDown state={currency} setState={setCurrecy}/>
+                      <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
                     </ActivateElemContainer>
                   </ActivateElemGroup>
-                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(activeMonth, "")}}>
+                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(state.activeMonth, "")}}>
                   Activate
                 </ActivateButton>
                 </ActivateAction>
@@ -168,10 +178,10 @@ export const KingpassClaim = () => {
         </ClaimPlanCardContainer>
       )}
 
-{typeOfUser === 0 && subIdx === "1-2" && (
+{state.typeOfUser === 0 && state.subIdx === "1-2" && (
 <ClaimCardContainer>
   <ClaimPlanCard>
-    <BackButton onClick={() => setSubIdx("1")}>Back</BackButton>
+    <BackButton onClick={() => handleStateChanged("subIdx", "1")}>Back</BackButton>
     <PlanCardLabel>Activate your bonus subscription</PlanCardLabel>
     <ActivateAction>
       <SubScriptionGroup>
@@ -185,7 +195,7 @@ export const KingpassClaim = () => {
           </DeletedText>
           <ShowLabel>$ 499,95</ShowLabel>
         </SubscriptionCard>
-        <ActivateButton onClick={() => {setBonusMonth(6);setBonusValue("$ 499,95");setSubIdx("1-2-1")}}>Activate</ActivateButton>
+        <ActivateButton onClick={() => {handleStateChanged("bonusMonth", 6);handleStateChanged("bonusValue", "$ 499,95");handleStateChanged("subIdx", "1-2-1")}}>Activate</ActivateButton>
         <ActivateLabel>Save 1 month</ActivateLabel>
         </SubscriptionCardContainer>
         <SubscriptionCardContainer>
@@ -198,7 +208,7 @@ export const KingpassClaim = () => {
           </DeletedText>
           <ShowLabel>$ 999,90</ShowLabel>
         </SubscriptionCard>
-        <ActivateButton onClick={() => {setBonusMonth(12);setBonusValue("$ 999,90");setSubIdx("1-2-1")}}>Activate</ActivateButton>
+        <ActivateButton onClick={() => {handleStateChanged("bonusMonth", 12);handleStateChanged("bonusValue", "$ 999,90");handleStateChanged("subIdx", "1-2-1")}}>Activate</ActivateButton>
         <ActivateLabel>Save 2 months</ActivateLabel>
         </SubscriptionCardContainer>
       </SubScriptionGroup>
@@ -207,14 +217,14 @@ export const KingpassClaim = () => {
 </ClaimCardContainer>
 )}
 
-{typeOfUser === 0 && subIdx === "1-2-1" && (
+{state.typeOfUser === 0 && state.subIdx === "1-2-1" && (
   <ClaimCardContainer>
   <ClaimPlanCard>
-  <BackButton onClick={() => setSubIdx("1-2")}>Back</BackButton>
+  <BackButton onClick={() => handleStateChanged("subIdx", "1-2")}>Back</BackButton>
     <PlanCardLabel>Select your preferred currency</PlanCardLabel>
-    <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {bonusMonth} month subscription for {bonusValue}</ActivateLabel>
+    <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {state.bonusMonth} month subscription for {state.bonusValue}</ActivateLabel>
       <SubScriptionGroup style={{ paddingTop: "78px" }}>
-        <CurrencyDropDown state={currency} setState={setCurrecy}/>
+        <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
         <ActivateButton style={{ width: "169px", marginBottom: '170px' }}>Activate</ActivateButton>
       </SubScriptionGroup>
   </ClaimPlanCard>
@@ -222,7 +232,7 @@ export const KingpassClaim = () => {
 )
 }
 
-      {typeOfUser === 1 && (
+      {state.typeOfUser === 1 && (
         <ClaimCardContainer>
           <ClaimCard>
             <CardTitle>
@@ -250,7 +260,7 @@ export const KingpassClaim = () => {
         </ClaimCardContainer>
       )}
 
-      {typeOfUser === 2 && (
+      {state.typeOfUser === 2 && (
         <ClaimCardContainer>
           <ClaimCard>
             <CardTitle>
@@ -508,6 +518,7 @@ const ElemContainer = styled.div`
 const ElemButton = styled.div`
   font-size: 20px;
   color: #ffe3fd;
+  cursor: pointer;
 `
 
 const ShowLabel = styled.div`
@@ -609,6 +620,7 @@ const ActivateButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
   @media screen and (max-width: 500px) {
     font-size: 11px;
     height: 49px;
