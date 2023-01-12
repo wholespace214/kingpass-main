@@ -19,7 +19,6 @@ export const initializeWeb3 = async (provider_: any, signer_: any) => {
 
   provider = provider_;
   signer = await signer_;
-  console.log({ kingPass, signer });
 };
 
 export const getKingpadStatus = async (address: string | undefined) => {
@@ -60,4 +59,8 @@ export const handleSubscriptionCancel = async () => {
   const tx = await kingPassWithSigner.deactivateSubscription();
   await tx.wait();
 }
+
+// export const handleApprove = async() => {
+//   const tx = await currencyContract.approve()
+// }
 

@@ -1,11 +1,14 @@
+/* eslint-disable no-console */
 import { useEffect, useState } from 'react';
 import { KingLogo, KingPassLogo, CalendarIcon, StarIcon, BusdIcon } from 'src/config/images';
 import { useWeb3Store } from 'src/context/web3context';
 import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel } from 'src/contracts';
 import styled from 'styled-components';
 import contracts from 'src/contracts/contracts.json'
-import { useAccount } from 'wagmi';
+import { useAccount, useBalance } from 'wagmi';
 import { CurrencyDropDown } from 'src/components/Dropdown/Currency';
+import { Spinner } from 'src/components/Spinner';
+import { toast } from 'react-toastify';
 
 export const KingpassClaim = () => {
   const initialState: CurrencyArrProps = {
@@ -21,12 +24,12 @@ export const KingpassClaim = () => {
 }
   const { address } = useAccount();
   const { isInitialized } = useWeb3Store();
-  // const [typeOfUser, setTypeOfUser] = useState(0);
-  // const [ subIdx, setSubIdx ] = useState("0");
-  // const [activeMonth, setActiveMonth] = useState(1);
-  // const [currency, setCurrecy] = useState(initialState);
-  // const [bonusMonth, setBonusMonth] = useState(6);
-  // const [bonusValue, setBonusValue] = useState("$ 499,95");
+  const [isLoad, setLoad] = useState(false);
+  // const { data, isError, isLoading } = useBalance({
+  //   address: address
+  // });
+  // if (isLoading) console.log("Fetching balance...")
+  // if(isError) console.log("Error fetching balance")
   const [state, setState] = useState({
     typeOfUser: 0,
     subIdx: "0",
@@ -58,6 +61,26 @@ export const KingpassClaim = () => {
       handleStateChanged('activeMonth', state.activeMonth + 1)
     }
   }
+
+  const handlePromiseFunc = (func:() => Promise<void>) => {
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
+    const promise = new Promise(async function(resolve, reject) {
+      try {
+        setLoad(true);
+        await func();
+        resolve("");
+      } catch (err) {
+        reject(err)
+      }
+    });
+    promise.then(
+      (result) => {console.log("success Promise", result);
+      setLoad(false);}
+    ).catch(
+      (err) => {console.log("failed", err); toast.error(`Execution reverted`); setLoad(false);}
+    )
+  }
+
   return (
     <KingpassClaimContainer>
       <ClaimContentContainer>
@@ -90,11 +113,10 @@ export const KingpassClaim = () => {
                   <CardButtonIcon src={KingLogo} alt="card-button-icon" />
                 </CardButton1>
                 <CardButton2
-                  onClick={() => {
-                    handleClaim();
-                  }}
+                  disabled={isLoad}
+                  onClick={() => handlePromiseFunc(handleClaim)}
                 >
-                  Claim
+                  {isLoad ? <Spinner /> : "Claim"}
                 </CardButton2>
               </CardAction>
             </ClaimCard>
@@ -115,7 +137,7 @@ export const KingpassClaim = () => {
       {state.typeOfUser === 0 && state.subIdx === "1" && (
         <ClaimPlanCardContainer>
              <ClaimPlanCard>
-                <BackButton onClick={() => handleStateChanged("subIdx", "0")}>Back</BackButton>
+                <BackButton  onClick={() => handleStateChanged("subIdx", "0")}>Back</BackButton>
                 <PlanCardLabel>Choose your plan</PlanCardLabel>
                 <PlanCardAction>
                   <PlanSubBox onClick={() => handleStateChanged("subIdx", "1-1")}>
@@ -173,8 +195,8 @@ export const KingpassClaim = () => {
                       <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
                     </ActivateElemContainer>
                   </ActivateElemGroup>
-                <ActivateButton style={{ marginBottom: "46px" }} onClick={() => {handleStartSubScription(state.activeMonth, state.currency.address, true)}}>
-                  Activate
+                <ActivateButton disabled={isLoad} style={{ marginBottom: "46px" }} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.activeMonth, state.currency.address, true))}>
+                  {isLoad ? <Spinner /> : "Activate"}
                 </ActivateButton>
                 </ActivateAction>
              </ClaimPlanCard>
@@ -234,7 +256,7 @@ export const KingpassClaim = () => {
     <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {state.bonusMonth} month subscription for {state.bonusValue}</ActivateLabel>
       <SubScriptionGroup style={{ paddingTop: "78px" }}>
         <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
-        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} onClick={() => {handleStartSubScription(state.bonusMonth, state.currency.address, false)}}>Activate</ActivateButton>
+        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} disabled={isLoad} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.bonusMonth, state.currency.address, false))}>{isLoad ? <Spinner /> : "Activate"}</ActivateButton>
       </SubScriptionGroup>
   </ClaimPlanCard>
   </ClaimCardContainer>
@@ -263,7 +285,7 @@ export const KingpassClaim = () => {
                 <CardButtonValue>200.000 KING</CardButtonValue>
                 <CardButtonIcon src={KingLogo} alt="card-button-icon" />
               </CardButton1>
-              <CardButton2 onClick={() => {handleKingpassWithdraw();}}>Withdraw</CardButton2>
+              <CardButton2 disabled={isLoad} onClick={() => handlePromiseFunc(handleKingpassWithdraw)}>{isLoad ? <Spinner /> : "Withdraw"}</CardButton2>
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>
@@ -617,7 +639,7 @@ const Img = styled.img`
   height: auto;
 `;
 
-const ActivateButton = styled.div`
+const ActivateButton = styled.button`
   background: transparent linear-gradient(225deg, #FCB0FE 0%, #BBFFFF 100%) 0% 0% no-repeat padding-box;
   border-radius: 37px;
   color: #010101;
