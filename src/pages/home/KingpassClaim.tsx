@@ -25,11 +25,11 @@ export const KingpassClaim = () => {
   const { address } = useAccount();
   const { isInitialized } = useWeb3Store();
   const [isLoad, setLoad] = useState(false);
-  // const { data, isError, isLoading } = useBalance({
-  //   address: address
-  // });
-  // if (isLoading) console.log("Fetching balance...")
-  // if(isError) console.log("Error fetching balance")
+  const { data, isError, isLoading } = useBalance({
+    address: address
+  });
+  if (isLoading) console.log("Fetching balance...")
+  if(isError) console.log("Error fetching balance")
   const [state, setState] = useState({
     typeOfUser: 0,
     subIdx: "0",
@@ -74,10 +74,15 @@ export const KingpassClaim = () => {
       }
     });
     promise.then(
-      (result) => {console.log("success Promise", result);
-      setLoad(false);}
+      (result) => {
+        toast.success("Success !");
+        setLoad(false);
+      }
     ).catch(
-      (err) => {console.log("failed", err); toast.error(`Execution reverted`); setLoad(false);}
+      (err) => {
+        toast.error(`Execution reverted`, err); 
+        setLoad(false);
+      }
     )
   }
 
