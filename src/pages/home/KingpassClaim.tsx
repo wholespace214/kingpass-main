@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { KingLogo, KingPassLogo, CalendarIcon, StarIcon, BusdIcon } from 'src/config/images';
 import { useWeb3Store } from 'src/context/web3context';
-import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel } from 'src/contracts';
+import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel, hasUserKing } from 'src/contracts';
 import styled from 'styled-components';
 import contracts from 'src/contracts/contracts.json'
 import { useAccount, useBalance } from 'wagmi';
@@ -80,10 +80,20 @@ export const KingpassClaim = () => {
       }
     ).catch(
       (err) => {
-        toast.error(`Execution reverted`, err); 
+        toast.error(`Sorry! You don’t have enough funds`, err); 
         setLoad(false);
       }
     )
+  }
+
+  const handleClickCliam = async () => {
+    const amount = data?.formatted;
+    const hasKing = await hasUserKing(amount);
+    if(hasKing) {
+      handlePromiseFunc(handleClaim);
+    } else {
+      toast.error('Sorry, you don’t have enough $KING');
+    }
   }
 
   return (
@@ -92,6 +102,12 @@ export const KingpassClaim = () => {
         <ClaimTitle>
           Claim your <span style={{ fontFamily: 'gotham-bold' }}>Kingpass</span>
         </ClaimTitle>
+        <CardButton2
+                  disabled={isLoad}
+                  onClick={() => {handleClickCliam()}}
+                >
+                  {isLoad ? <Spinner /> : "Claim"}
+                </CardButton2>
         <ClaimContent>
           <p>
             You have never been closer to the ultimate experience. Claiming your KingPass is bringing you to new
@@ -119,7 +135,7 @@ export const KingpassClaim = () => {
                 </CardButton1>
                 <CardButton2
                   disabled={isLoad}
-                  onClick={() => handlePromiseFunc(handleClaim)}
+                  onClick={() => {handleClickCliam()}}
                 >
                   {isLoad ? <Spinner /> : "Claim"}
                 </CardButton2>

@@ -60,6 +60,15 @@ export const handleSubscriptionCancel = async () => {
   await tx.wait();
 }
 
+export const hasUserKing = async (amount: string | undefined) => {
+  const value = 200000;
+  const MinKingToLock = ethers.utils.parseUnits(value.toString(), 9).toString();
+  if(Number(amount) * Math.pow(10, 18) >= Number(MinKingToLock)) {
+    return true;
+  } 
+  return false;
+}
+
 // export const handleApprove = async() => {
 //   const tx = await currencyContract.approve()
 // }
