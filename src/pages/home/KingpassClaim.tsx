@@ -80,6 +80,7 @@ export const KingpassClaim = () => {
       }
     ).catch(
       (err) => {
+        console.log({ err });
         toast.error(`Sorry! You don’t have enough funds`, err); 
         setLoad(false);
       }
@@ -127,6 +128,12 @@ export const KingpassClaim = () => {
                   <CardButtonValue>200.000 KING</CardButtonValue>
                   <CardButtonIcon src={KingLogo} alt="card-button-icon" />
                 </CardButton1>
+                <CardButton2
+                  disabled={isLoad}
+                  onClick={() => {handleClickCliam()}}
+                >
+                  {isLoad ? <Spinner /> : "Claim"}
+                </CardButton2>
               </CardAction>
             </ClaimCard>
             <ClaimCard>
@@ -146,7 +153,7 @@ export const KingpassClaim = () => {
       {state.typeOfUser === 0 && state.subIdx === "1" && (
         <ClaimPlanCardContainer>
              <ClaimPlanCard>
-                <BackButton  onClick={() => handleStateChanged("subIdx", "0")}>Back</BackButton>
+                <BackButton onClick={() => handleStateChanged("subIdx", "0")}>Back</BackButton>
                 <PlanCardLabel>Choose your plan</PlanCardLabel>
                 <PlanCardAction>
                   <PlanSubBox onClick={() => handleStateChanged("subIdx", "1-1")}>
@@ -183,9 +190,9 @@ export const KingpassClaim = () => {
                       </ActivateLabel>
                       <ActivateElem>
                           <ElemContainer>
-                          <ElemButton onClick={() => handleSetActiveMonth('--')}>-</ElemButton>
-                          <ShowLabel style={{ width: '17px', textAlign: 'center' }}>{state.activeMonth}</ShowLabel>
-                          <ElemButton onClick={() => handleSetActiveMonth('++')}>+</ElemButton>
+                            <ElemButton onClick={() => handleSetActiveMonth('--')}>-</ElemButton>
+                            <ShowLabel style={{ width: '17px', textAlign: 'center' }}>{state.activeMonth}</ShowLabel>
+                            <ElemButton onClick={() => handleSetActiveMonth('++')}>+</ElemButton>
                           </ElemContainer>
                       </ActivateElem>
                     </ActivateElemContainer>

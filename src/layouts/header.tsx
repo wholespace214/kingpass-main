@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
 import { CustomConnectButton } from 'src/components/Button';
 import { AwesomeDropDown } from 'src/components/Dropdown';
@@ -52,15 +53,19 @@ export const Header = () => {
   const { isInitialized } = useWeb3Store();
   const { address } = useAccount();
   useEffect(() => {
+    console.log({ address });
     if (isInitialized) {
       (async () => {
-        const kingpadStatus = await getKingpadStatus(address);
-        // eslint-disable-next-line no-console
-        console.log('KingpasStatus: ', kingpadStatus);
-        handleStateChanged('status', statusArr[kingpadStatus ?? 0]);
+        if(address !== undefined) { 
+          const kingpadStatus = await getKingpadStatus(address);
+          console.log('KingpasStatus: ', kingpadStatus);
+          handleStateChanged('status', statusArr[kingpadStatus ?? 0]);
+        } else {
+          handleStateChanged('status', initialState.status); 
+        }
       })();
     }
-  }, [isInitialized]);
+  }, [isInitialized, address]);
 
   return (
     <>
