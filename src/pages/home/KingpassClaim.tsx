@@ -75,7 +75,7 @@ export const KingpassClaim = () => {
     });
     promise.then(
       (result) => {
-        toast.success("Success !");
+        toast.success("Congratulations, you have claimed your Kingpass");
         setLoad(false);
       }
     ).catch(
@@ -90,7 +90,7 @@ export const KingpassClaim = () => {
     const amount = data?.formatted;
     const hasKing = await hasUserKing(amount);
     if(hasKing) {
-      handlePromiseFunc(handleClaim);
+      handlePromiseFunc(handleClaim)
     } else {
       toast.error('Sorry, you don’t have enough $KING');
     }
@@ -102,12 +102,6 @@ export const KingpassClaim = () => {
         <ClaimTitle>
           Claim your <span style={{ fontFamily: 'gotham-bold' }}>Kingpass</span>
         </ClaimTitle>
-        <CardButton2
-                  disabled={isLoad}
-                  onClick={() => {handleClickCliam()}}
-                >
-                  {isLoad ? <Spinner /> : "Claim"}
-                </CardButton2>
         <ClaimContent>
           <p>
             You have never been closer to the ultimate experience. Claiming your KingPass is bringing you to new
@@ -133,12 +127,6 @@ export const KingpassClaim = () => {
                   <CardButtonValue>200.000 KING</CardButtonValue>
                   <CardButtonIcon src={KingLogo} alt="card-button-icon" />
                 </CardButton1>
-                <CardButton2
-                  disabled={isLoad}
-                  onClick={() => {handleClickCliam()}}
-                >
-                  {isLoad ? <Spinner /> : "Claim"}
-                </CardButton2>
               </CardAction>
             </ClaimCard>
             <ClaimCard>
