@@ -32,8 +32,11 @@ const ItemContent = (props: ItemContentProps) => {
 
 const ItemContentContainer = styled.div`
   display: flex;
-  gap: 15px;
+  justify-content: space-between;
+  /* gap: 15px; */
+  width: 100%;
   align-items: center;
+  padding-right: 25px;
   font-size: 14px;
   @media screen and (max-width: 768px) {
     gap: 8px;

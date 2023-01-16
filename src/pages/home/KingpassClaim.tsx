@@ -75,13 +75,14 @@ export const KingpassClaim = () => {
     });
     promise.then(
       (result) => {
+        console.log({ result })
         toast.success("Congratulations, you have claimed your Kingpass");
         setLoad(false);
       }
     ).catch(
       (err) => {
         console.log({ err });
-        toast.error(`Sorry! You don’t have enough funds`, err); 
+        toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err); 
         setLoad(false);
       }
     )

@@ -39,25 +39,41 @@ export const getTypeofUser = async (address: string | undefined) => {
 };
 
 export const handleClaim = async () => {
-  const tx = await kingPassWithSigner.activateKingPass();
-  await tx.wait();
+  try {
+    const tx = await kingPassWithSigner.activateKingPass();
+    await tx.wait();
+  } catch (err) {
+    console.log("handleClaim: ", err);
+  }
 };
 
 export const handleStartSubScription = async (months: number, usdtAddy: string, status: boolean) => {
   console.log({ months, usdtAddy, status })
-  const tx = await currencyContract.approve(contracts.KINGpass_abi.address, await kingPass.pricePass() * months);
-  await tx.wait();
-  await kingPass.buyPass(1, usdtAddy, status);
+  try {
+    const tx = await currencyContract.approve(contracts.KINGpass_abi.address, await kingPass.pricePass() * months);
+    await tx.wait();
+    await kingPass.buyPass(1, usdtAddy, status);
+  } catch(err) {
+    console.log("handleStartSubScription: ", err);
+  }
 }
 
 export const handleKingpassWithdraw = async () => {
+  try {
   const tx = await kingPassWithSigner.deactivateKingPass();
   await tx.wait();
+  } catch (err) {
+    console.log("handleKingpassWithdraw: ", err);
+  }
 }
 
 export const handleSubscriptionCancel = async () => {
-  const tx = await kingPassWithSigner.deactivateSubscription();
-  await tx.wait();
+  try {
+    const tx = await kingPassWithSigner.deactivateSubscription();
+    await tx.wait();
+  } catch (err) {
+    console.log("handleSubscriptionCancel: ", err);
+  }
 }
 
 export const hasUserKing = async (amount: string | undefined) => {

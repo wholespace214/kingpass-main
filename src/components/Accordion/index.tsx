@@ -2,51 +2,19 @@ import { useState, useEffect, useRef } from 'react';
 import { SiRedhatopenshift } from 'react-icons/si';
 import styled from 'styled-components';
 
-// interface AccordionProps {
-//   title: string;
-//   name: string;
-//   content: string;
-//   // isOpen: string;
-//   // setOpen: (value: string) => void;
-//   id: number;
-// }
+interface AccordionProps {
+  title: string;
+  name: string;
+  content: string;
+}
 
-const AccordArr = [
-  {
-    id: 0,
-    name: 'panel-0',
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  },
-  {
-    id: 1,
-    name: 'panel-1',
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  },
-  {
-    id: 2,
-    name: 'panel-2',
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  },
-  {
-    id: 3,
-    name: 'panel-3',
-    title: 'vel illum qui dolorem eum fugiat quo voluptas nulla pariatur qui dolorem eum fugiat?',
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  }
-];
+export const Accordion = (props: AccordionProps) => {
+  const { title, name, content } = props;
 
-export const Accordion = () => {
-  // const { title, name, content, id } = props;
   const boardRef = useRef(null);
   const [height, setHeight] = useState(0);
   const [expanded, setExpanded] = useState<string | false>(false);
+  const currencyRef = useRef<HTMLDivElement>(null);
   // useEffect(() => {
   //   if
   // }, [isOpen])
@@ -56,28 +24,37 @@ export const Accordion = () => {
       const _height = (boardRef.current as any).scrollHeight;
       setHeight(_height);
     }
-  });
+  }, []);
 
   const handleChange = (panel: string) => {
     if (expanded === panel) setExpanded(false);
     else setExpanded(panel);
   };
+
+  const handleClickOutside = (event: React.MouseEvent<HTMLElement>) => {
+    if (currencyRef.current && !currencyRef.current.contains(event.target as any)) {
+        setExpanded(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', (event) => handleClickOutside(event as any));
+  }, [currencyRef]);
+
   return (
     <>
-      {AccordArr.map((item) => (
-        <AccordionContainer aria-expanded={expanded === item.name} key={item.id}>
-          <AccordionBox onClick={() => handleChange(item.name)}>{item.title}</AccordionBox>
+        <AccordionContainer aria-expanded={expanded === name}>
+          <AccordionBox onClick={() => handleChange(name)} ref={currencyRef}>{title}</AccordionBox>
           <AccordionBoard
             className="board"
             ref={boardRef}
-            style={{ height: `${expanded === item.name ? height : 0}px` }}
+            style={{ height: `${expanded === name ? height : 0}px` }}
           >
-            <AccordionContent className="content" style={{ maxHeight: `${expanded === item.name ? height : 0}px` }}>
-              {item.content}
+            <AccordionContent className="content" style={{ maxHeight: `${expanded === name ? height : 0}px` }}>
+              {content}
             </AccordionContent>
           </AccordionBoard>
         </AccordionContainer>
-      ))}
     </>
   );
 };
@@ -113,7 +90,7 @@ const AccordionBox = styled.div`
   line-height: 20px;
   border: 2px solid #555555;
   cursor: pointer;
-  transition: all 0.2s linear;
+  transition: all 0.1s linear;
 `;
 
 const AccordionBoard = styled.div`

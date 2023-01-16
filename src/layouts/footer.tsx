@@ -7,7 +7,7 @@ import { SiGitbook } from 'react-icons/si';
 export const Footer = () => {
   return (
     <FooterContainer>
-      <a href={'https://kingworld.finance/'} rel="noopener noreferrer">
+      <a href={'https://kingworld.finance/'} rel="noopener noreferrer" target={"_blank"}>
         <Img src={FooterLogo} alt="footer-logo" />
       </a>
       <FooterLinks>
@@ -15,27 +15,27 @@ export const Footer = () => {
         <FooterLink>Terms of use</FooterLink>
       </FooterLinks>
       <ExternalLinks>
-        <a href={'https://t.me/KlNGfinance'} rel="noopener noreferrer">
+        <a href={'https://t.me/KlNGfinance'} rel="noopener noreferrer" target="_blank">
           <Icon>
             <FaTelegramPlane style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
-        <a href={'https://twitter.com/kingfinance'} rel="noopener noreferrer">
+        <a href={'https://twitter.com/kingfinance'} rel="noopener noreferrer" target="_blank">
           <Icon>
             <FaTwitter style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
-        <a href={'https://www.youtube.com/@kingfinanceco'} rel="noopener noreferrer">
+        <a href={'https://www.youtube.com/@kingfinanceco'} rel="noopener noreferrer" target="_blank">
           <Icon>
             <FaYoutube style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
-        <a href={'https://king-finance.gitbook.io/king-whitepaper'} rel="noopener noreferrer">
+        <a href={'https://king-finance.gitbook.io/king-whitepaper'} rel="noopener noreferrer" target="_blank">
           <Icon>
             <SiGitbook style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
-        <a href={'https://medium.com/@kingfinance'} rel="noopener noreferrer">
+        <a href={'https://medium.com/@kingfinance'} rel="noopener noreferrer" target="_blank">
           <Icon>
             <BsMedium style={{ width: '100%', height: 'auto' }} />
           </Icon>

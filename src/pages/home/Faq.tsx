@@ -1,6 +1,7 @@
 import { Accordion } from 'src/components/Accordion';
 import { KingFloki, KingLand, KingPad } from 'src/config/images';
 import styled from 'styled-components';
+import { AccordArr } from 'src/constants/accordion';
 
 export const FaqSection = () => {
   // const [isOpen, setOpen] = useState('');
@@ -22,18 +23,9 @@ export const FaqSection = () => {
       </KingWorldLinks>
       <FaqLetter>FAQ’s</FaqLetter>
       <AccordionContainer>
-        {/* {AccordArr.map((item, index) => (
-          <Accordion
-            name={item.name}
-            title={item.title}
-            content={item.content}
-            // isOpen={isOpen}
-            // setOpen={setOpen}
-            id={item.id}
-            key={index}
-          />
-        ))} */}
-        <Accordion />
+        {AccordArr.map((item) => {
+          return <Accordion key={item.id} title={item.title} name={item.name} content={item.content} />
+        })}
       </AccordionContainer>
     </FaqSectionContainer>
   );

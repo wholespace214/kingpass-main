@@ -93,12 +93,15 @@ export const HeaderContent = (props: HeaderProps) => {
       </HeaderBar>
       <HeaderAction>
         <HeaderNav>
-          <NavItem>Competition</NavItem>
-          <NavItem>News</NavItem>
-          <a href={'https://kingworld.finance'} rel="noopener noreferrer">
+          <a href={'https://kingworld.finance'} rel="noopener noreferrer" target={"_blank"}>
             <NavItem>King</NavItem>
           </a>
+          <a href={'https://king-finance.gitbook.io/king-whitepaper/king-pass/king-pass'} rel="noopener noreferrer" target={"_blank"}>
           <NavItem>Docs</NavItem>
+          </a>
+          <a href={' http://t.me/kingannouncements'} rel="noopener noreferrer" target={"_blank"}>
+          <NavItem>News</NavItem>
+          </a> 
         </HeaderNav>
         <HeaderButtons>
           <AwesomeDropDown state={state.status} />

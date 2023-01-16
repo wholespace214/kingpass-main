@@ -14,7 +14,7 @@ const cardArr = [
   },
   {
     id: 3,
-    title: 'Whitelist on king Pad',
+    title: 'Whitelist on King Pad',
     content: 'Always have your automatic whitelist spot on KingPad pre-sales'
   },
   {
@@ -24,7 +24,7 @@ const cardArr = [
   },
   {
     id: 5,
-    title: 'Private chairman Reunions',
+    title: 'Private chairman reunions',
     content: 'Join the chairmen reunions, be amongst the first to know what’s happening within KING'
   },
   {
