@@ -89,7 +89,7 @@ export const KingpassClaim = () => {
         console.log({ err });
         // toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err); 
         const revertData = err.reason;
-        errMsg === "" ? toast.error(errMsg, err) : toast.error(`Transaction failed: ${revertData}`) 
+        errMsg !== "" ? toast.error(errMsg, err) : toast.error(`Transaction failed: ${revertData}`) 
         setLoad(false);
       }
     )

@@ -60,7 +60,9 @@ export const handleStartSubScription = async (months: number, usdtAddy: string, 
     await kingPassWithSigner.buyPass(1, usdtAddy, status)
     console.log("unallowed")
   } else {
-    toast.error("Sorry! You don’t have enough funds")
+    // toast.error("Sorry! You don’t have enough funds")
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw "Sorry! You don’t have enough funds";
   }
 }
 
