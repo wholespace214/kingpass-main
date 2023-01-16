@@ -3,6 +3,7 @@
 import { ethers } from 'ethers';
 import contracts from './contracts.json';
 import { erc20ABI } from 'wagmi'
+import { toast } from 'react-toastify';
 
 let signer: any = null;
 let provider: any = null;
@@ -45,9 +46,21 @@ export const handleClaim = async () => {
 
 export const handleStartSubScription = async (months: number, usdtAddy: string, status: boolean) => {
   console.log({ months, usdtAddy, status })
+  const user_address = await signer.getAddress()
   const _currencyContract = currencyContract.attach(usdtAddy);
-  const tx = await _currencyContract.approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
-  await tx.wait();
+  const _kingPassCost = await kingPass.pricePass();
+  const userBalance = await _currencyContract.balanceOf(user_address);
+  const userAllowance = await _currencyContract.allowance(user_address, contracts.KINGpass_abi.address)
+  if(userAllowance < _kingPassCost) {
+    const tx = await _currencyContract.approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
+    await tx.wait();
+  }
+  if(userBalance >= _kingPassCost) {
+    await kingPass.buyPass(1, usdtAddy, status)
+  } else {
+    toast.error("Sorry! You don’t have enough funds")
+  }
+
   await kingPass.buyPass(1, usdtAddy, status);
 }
 
