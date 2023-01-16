@@ -54,14 +54,14 @@ export const handleStartSubScription = async (months: number, usdtAddy: string, 
   if(userAllowance < _kingPassCost) {
     const tx = await _currencyContract.connect(signer).approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
     await tx.wait();
+    console.log("allowed")
   }
   if(userBalance >= _kingPassCost) {
     await kingPassWithSigner.buyPass(1, usdtAddy, status)
+    console.log("unallowed")
   } else {
     toast.error("Sorry! You don’t have enough funds")
   }
-
-  await kingPassWithSigner.buyPass(1, usdtAddy, status);
 }
 
 export const handleKingpassWithdraw = async () => {
