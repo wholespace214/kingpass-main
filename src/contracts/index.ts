@@ -46,13 +46,13 @@ export const handleClaim = async () => {
 
 export const handleStartSubScription = async (months: number, usdtAddy: string, status: boolean) => {
   const user_address = await signer.getAddress()
-  const _currencyContract = ((currencyContract).attach(usdtAddy)).connect(signer);
+  const _currencyContract = (currencyContract).attach(usdtAddy);
   const _kingPassCost = await kingPass.pricePass();
   const userBalance = await _currencyContract.balanceOf(user_address);
   const userAllowance = await _currencyContract.allowance(user_address, contracts.KINGpass_abi.address)
   console.log({ userBalance, userAllowance, _kingPassCost })
   if(userAllowance < _kingPassCost) {
-    const tx = await _currencyContract.approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
+    const tx = await _currencyContract.connect(signer).approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
     await tx.wait();
   }
   if(userBalance >= _kingPassCost) {
