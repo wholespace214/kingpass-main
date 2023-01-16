@@ -45,7 +45,8 @@ export const handleClaim = async () => {
 
 export const handleStartSubScription = async (months: number, usdtAddy: string, status: boolean) => {
   console.log({ months, usdtAddy, status })
-  const tx = await currencyContract.approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
+  const _currencyContract = currencyContract.attach(usdtAddy);
+  const tx = await _currencyContract.approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
   await tx.wait();
   await kingPass.buyPass(1, usdtAddy, status);
 }
