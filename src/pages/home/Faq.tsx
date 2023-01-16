@@ -88,6 +88,7 @@ const FaqLetter = styled.div`
 
 const AccordionContainer = styled.div`
   padding-top: 50px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 6px;

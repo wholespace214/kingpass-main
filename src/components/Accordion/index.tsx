@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { SiRedhatopenshift } from 'react-icons/si';
 import styled from 'styled-components';
 
 interface AccordionProps {
@@ -16,9 +17,8 @@ export const Accordion = (props: AccordionProps) => {
   const currencyRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (boardRef.current !== null) {
-      // eslint-disable-next-line no-console
-      console.log({ boardRef });
-      const _height = (boardRef.current as any).firstElementChild.clientHeight;
+      const _height = (boardRef.current as HTMLElement).scrollHeight;
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
       setHeight(_height) ;
     }
   }, []);
@@ -40,14 +40,14 @@ export const Accordion = (props: AccordionProps) => {
 
   return (
     <>
-        <AccordionContainer aria-expanded={expanded === name}  >
+        <AccordionContainer aria-expanded={expanded === name} >
           <AccordionBox onClick={() => handleChange(name)} ref={currencyRef}>{title}</AccordionBox>
           <AccordionBoard
             className="board"
             ref={boardRef}
             style={{ height: `${expanded === name ? height : 0}px` }}
           >
-            <AccordionContent className="content" style={{ maxHeight: `${expanded === name ? height : 0}px` }}>
+            <AccordionContent className="content">
               {content}
             </AccordionContent>
           </AccordionBoard>
@@ -97,8 +97,7 @@ const AccordionBoard = styled.div`
   max-width: 834px;
   background: none;
   line-height: 25px;
-  will-change: height;
-  transition: height 0.3s linear 0.18s;
+  transition: 0.3s linear 0.18s;
   padding: 0 32px;
 `;
 
@@ -106,5 +105,7 @@ const AccordionContent = styled.div`
   padding-top: 14px;
   padding-bottom: 14px;
   opacity: 0;
-  transition: opacity 0.3s linear 0.18s;
+  transition: 0.3s linear 0.18s;
+  width: 100%;
+  overflow-wrap: break-word;
 `;
