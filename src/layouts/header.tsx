@@ -7,7 +7,6 @@ import { FiMenu } from 'react-icons/fi';
 import styled from 'styled-components';
 import { Modal } from 'src/components/Modal';
 import { useAccount } from 'wagmi';
-import { getKingpadStatus } from 'src/contracts';
 import { useWeb3Store } from 'src/context/web3context';
 
 interface statusArrProps {
@@ -50,22 +49,20 @@ export const Header = () => {
     setState({ ...state, [prop]: value });
   };
 
-  const { isInitialized } = useWeb3Store();
+  const { isInitialized, kingStatus } = useWeb3Store();
   const { address } = useAccount();
   useEffect(() => {
     console.log({ address });
     if (isInitialized) {
       (async () => {
         if(address !== undefined) { 
-          const kingpadStatus = await getKingpadStatus(address);
-          console.log('KingpasStatus: ', kingpadStatus);
-          handleStateChanged('status', statusArr[kingpadStatus ?? 0]);
+          handleStateChanged('status', statusArr[kingStatus]);
         } else {
           handleStateChanged('status', initialState.status); 
         }
       })();
     }
-  }, [isInitialized, address]);
+  }, [isInitialized, address, kingStatus]);
 
   return (
     <>

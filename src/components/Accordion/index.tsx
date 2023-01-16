@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import { SiRedhatopenshift } from 'react-icons/si';
 import styled from 'styled-components';
 
 interface AccordionProps {
@@ -15,14 +14,12 @@ export const Accordion = (props: AccordionProps) => {
   const [height, setHeight] = useState(0);
   const [expanded, setExpanded] = useState<string | false>(false);
   const currencyRef = useRef<HTMLDivElement>(null);
-  // useEffect(() => {
-  //   if
-  // }, [isOpen])
-  // const [isFaqOpen, setFaqOpen] = useState(false);
   useEffect(() => {
     if (boardRef.current !== null) {
-      const _height = (boardRef.current as any).scrollHeight;
-      setHeight(_height);
+      // eslint-disable-next-line no-console
+      console.log({ boardRef });
+      const _height = (boardRef.current as any).firstElementChild.clientHeight;
+      setHeight(_height) ;
     }
   }, []);
 
@@ -43,7 +40,7 @@ export const Accordion = (props: AccordionProps) => {
 
   return (
     <>
-        <AccordionContainer aria-expanded={expanded === name}>
+        <AccordionContainer aria-expanded={expanded === name}  >
           <AccordionBox onClick={() => handleChange(name)} ref={currencyRef}>{title}</AccordionBox>
           <AccordionBoard
             className="board"
@@ -77,7 +74,7 @@ const AccordionContainer = styled.div`
       height: 0px;
     }
   }
-  @media screen and (max-width: 450px) {
+  @media screen and (max-width: 560px) {
     font-size: 12px;
   }
 `;
@@ -91,6 +88,9 @@ const AccordionBox = styled.div`
   border: 2px solid #555555;
   cursor: pointer;
   transition: all 0.1s linear;
+  @media screen and (max-width: 560px) {
+    padding: 12px 24px;
+  }
 `;
 
 const AccordionBoard = styled.div`

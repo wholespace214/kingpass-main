@@ -32,11 +32,10 @@ const ItemContent = (props: ItemContentProps) => {
 
 const ItemContentContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   /* gap: 15px; */
   width: 100%;
   align-items: center;
-  padding-right: 25px;
   font-size: 14px;
   @media screen and (max-width: 768px) {
     gap: 8px;
@@ -52,6 +51,8 @@ const StatusCircle = styled.div`
   width: 26px;
   height: 26px;
   border-radius: 50%;
+  position: absolute;
+  left: 10px;
   @media screen and (max-width: 768px) {
     width: 15px;
     height: 15px;

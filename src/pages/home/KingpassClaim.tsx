@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { KingLogo, KingPassLogo, CalendarIcon, StarIcon, BusdIcon } from 'src/config/images';
 import { useWeb3Store } from 'src/context/web3context';
-import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel, hasUserKing } from 'src/contracts';
+import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel, hasUserKing, getKingpadStatus } from 'src/contracts';
 import styled from 'styled-components';
 import contracts from 'src/contracts/contracts.json'
 import { useAccount, useBalance } from 'wagmi';
@@ -39,6 +39,8 @@ export const KingpassClaim = () => {
     bonusValue: "$ 499,95"
   })
 
+  const { setKingStatus } = useWeb3Store();
+
   const handleStateChanged = (prop: string, value: string | number | boolean | CurrencyArrProps) => {
     setState({ ...state, [prop]: value });
   };
@@ -62,12 +64,14 @@ export const KingpassClaim = () => {
     }
   }
 
-  const handlePromiseFunc = (func:() => Promise<void>) => {
+  const handlePromiseFunc = (func:() => Promise<void>, successMsg: string, errMsg: string) => {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
     const promise = new Promise(async function(resolve, reject) {
       try {
         setLoad(true);
         await func();
+        const kingpadStatus = await getKingpadStatus(address);
+        setKingStatus(kingpadStatus ?? 0);
         resolve("");
       } catch (err) {
         reject(err)
@@ -76,13 +80,16 @@ export const KingpassClaim = () => {
     promise.then(
       (result) => {
         console.log({ result })
-        toast.success("Congratulations, you have claimed your Kingpass");
+        // toast.success("Congratulations, you have claimed your Kingpass");
+        toast.success(successMsg);
         setLoad(false);
       }
     ).catch(
       (err) => {
         console.log({ err });
-        toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err); 
+        // toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err); 
+        const revertData = err.reason;
+        errMsg === "" ? toast.error(errMsg, err) : toast.error(`Transaction failed: ${revertData}`) 
         setLoad(false);
       }
     )
@@ -92,7 +99,8 @@ export const KingpassClaim = () => {
     const amount = data?.formatted;
     const hasKing = await hasUserKing(amount);
     if(hasKing) {
-      handlePromiseFunc(handleClaim)
+      handlePromiseFunc(handleClaim, "Congratulations, you have claimed your Kingpass", "");
+      
     } else {
       toast.error('Sorry, you don’t have enough $KING');
     }
@@ -212,7 +220,7 @@ export const KingpassClaim = () => {
                       <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
                     </ActivateElemContainer>
                   </ActivateElemGroup>
-                <ActivateButton disabled={isLoad} style={{ marginBottom: "46px" }} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.activeMonth, state.currency.address, true))}>
+                <ActivateButton disabled={isLoad} style={{ marginBottom: "46px" }} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.activeMonth, state.currency.address, true), "Congratulations, you have claimed your Kingpass", "Sorry! You don’t have enough funds")}>
                   {isLoad ? <Spinner /> : "Activate"}
                 </ActivateButton>
                 </ActivateAction>
@@ -273,7 +281,7 @@ export const KingpassClaim = () => {
     <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {state.bonusMonth} month subscription for {state.bonusValue}</ActivateLabel>
       <SubScriptionGroup style={{ paddingTop: "78px" }}>
         <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
-        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} disabled={isLoad} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.bonusMonth, state.currency.address, false))}>{isLoad ? <Spinner /> : "Activate"}</ActivateButton>
+        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} disabled={isLoad} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.bonusMonth, state.currency.address, false), "Congratulations, you have claimed your Kingpass", "Sorry! You don’t have enough funds")}>{isLoad ? <Spinner /> : "Activate"}</ActivateButton>
       </SubScriptionGroup>
   </ClaimPlanCard>
   </ClaimCardContainer>
@@ -302,7 +310,7 @@ export const KingpassClaim = () => {
                 <CardButtonValue>200.000 KING</CardButtonValue>
                 <CardButtonIcon src={KingLogo} alt="card-button-icon" />
               </CardButton1>
-              <CardButton2 disabled={isLoad} onClick={() => handlePromiseFunc(handleKingpassWithdraw)}>{isLoad ? <Spinner /> : "Withdraw"}</CardButton2>
+              <CardButton2 disabled={isLoad} onClick={() => handlePromiseFunc(handleKingpassWithdraw, "Congratulations, you have withdrawn your $KING", "You need to wait at least 24 hours to withdraw your $KING.")}>{isLoad ? <Spinner /> : "Withdraw"}</CardButton2>
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>

@@ -11,13 +11,13 @@ export const FaqSection = () => {
         Where to use the <span style={{ fontFamily: 'gotham-bold' }}>Kingpass</span>
       </KingWorldTitle>
       <KingWorldLinks>
-        <a href={'https://kingflokiworld.com/'} rel="noopener noreferrer">
+        <a href={'https://kingflokiworld.com/'} rel="noopener noreferrer" target={"_blank"}>
           <KingWorld src={KingFloki} alt="king-floki" />
         </a>
-        <a href={'https://kingpad.finance/'} rel="noopener noreferrer">
+        <a href={'https://kingpad.finance/'} rel="noopener noreferrer" target={"_blank"}>
           <KingWorld src={KingPad} alt="king-pad" />
         </a>
-        <a href={'https://kingland.finance/'} rel="noopener noreferrer">
+        <a href={'https://kingland.finance/'} rel="noopener noreferrer" target={"_blank"}>
           <KingWorld src={KingLand} alt="king-land" />
         </a>
       </KingWorldLinks>
