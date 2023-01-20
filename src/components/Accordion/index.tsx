@@ -80,7 +80,6 @@ const AccordionContainer = styled.div`
 `;
 
 const AccordionBox = styled.div`
-  max-width: 834px;
   border-radius: 20px;
   padding: 22px 32px;
   background: none;
@@ -94,7 +93,6 @@ const AccordionBox = styled.div`
 `;
 
 const AccordionBoard = styled.div`
-  max-width: 834px;
   background: none;
   line-height: 25px;
   transition: 0.3s linear 0.18s;
