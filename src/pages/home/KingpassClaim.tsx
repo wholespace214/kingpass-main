@@ -45,14 +45,15 @@ export const KingpassClaim = () => {
     setState({ ...state, [prop]: value });
   };
 
-  useEffect(() => {
-    if (isInitialized) {
-      (async () => {
-        const _typeOfUser = await getTypeofUser(address);
-        handleStateChanged("typeOfUser", Number(_typeOfUser.toString()));
-      })();
-    }
-  }, [isInitialized, isLoad]);
+  // useEffect(() => {
+  //   if (isInitialized) {
+  //     (async () => {
+  //     //   const _typeOfUser = await getTypeofUser(address);
+  //     //   handleStateChanged("typeOfUser", Number(_typeOfUser.toString()));
+  //       await handleGetTypeOfUser()
+  //     })();
+  //   }
+  // }, [isInitialized, isLoad]);
 
   const handleSetActiveMonth = (status: string) => {
     if(status === '--') {
@@ -72,6 +73,7 @@ export const KingpassClaim = () => {
         await func();
         const kingpadStatus = await getKingpadStatus(address);
         setKingStatus(kingpadStatus ?? 0);
+        await handleGetTypeOfUser();
         resolve("");
       } catch (err) {
         reject(err)
@@ -83,16 +85,23 @@ export const KingpassClaim = () => {
         // toast.success("Congratulations, you have claimed your Kingpass");
         toast.success(successMsg);
         setLoad(false);
+        
       }
     ).catch(
       (err) => {
         console.log({ err });
         // toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err); 
         const revertData = err.reason;
-        errMsg !== "" ? toast.error(errMsg, err) : toast.error(`Transaction failed: ${revertData}`) 
+        toast.error(`Transaction failed: ${revertData}`)
+        // errMsg !== "" ? toast.error(errMsg, err) :  
         setLoad(false);
       }
     )
+  }
+
+  const handleGetTypeOfUser = async () => {
+      const _typeOfUser = await getTypeofUser(address);
+      handleStateChanged("typeOfUser", Number(_typeOfUser.toString()));
   }
 
   const handleClickCliam = async () => {
@@ -105,6 +114,7 @@ export const KingpassClaim = () => {
       toast.error('Sorry, you don’t have enough $KING');
     }
   }
+  console.log("asdf: ", state.typeOfUser, "+", state.subIdx);
 
   return (
     <KingpassClaimContainer>
@@ -124,7 +134,7 @@ export const KingpassClaim = () => {
           </p>
         </ClaimContent>
       </ClaimContentContainer>
-      {
+     {
         state.typeOfUser === 0 && state.subIdx === "0" && (
           <ClaimCardContainer>
             <ClaimCard>
@@ -157,8 +167,7 @@ export const KingpassClaim = () => {
               </CardAction>
             </ClaimCard>
           </ClaimCardContainer>
-        )
-      }
+         )} 
       {state.typeOfUser === 0 && state.subIdx === "1" && (
         <ClaimPlanCardContainer>
              <ClaimPlanCard>
@@ -220,8 +229,9 @@ export const KingpassClaim = () => {
                       <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
                     </ActivateElemContainer>
                   </ActivateElemGroup>
+
                 <ActivateButton disabled={isLoad} style={{ marginBottom: "46px" }} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.activeMonth, state.currency.address, true), "Congratulations, you have claimed your Kingpass", "Sorry! You don’t have enough funds")}>
-                  {isLoad ? <Spinner /> : "Activate"}
+                  {isLoad? <Spinner /> : "Activate"}
                 </ActivateButton>
                 </ActivateAction>
              </ClaimPlanCard>
@@ -287,8 +297,7 @@ export const KingpassClaim = () => {
   </ClaimCardContainer>
 )
 }
-
-      {state.typeOfUser === 1 && (
+    {state.typeOfUser === 1 && (
         <ClaimCardContainer>
           <ClaimCard>
             <CardTitle>
@@ -338,6 +347,46 @@ export const KingpassClaim = () => {
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>
+      )}
+
+      {state.typeOfUser === 3 && (
+        <ClaimPlanCardContainer>
+          <ClaimPlanCard style={{ height: '357px' }}>
+            <ClaimPlanCardWrapper>
+            <PlanCardLabel style={{ margin: 0 }}>
+              <p>Congratulations</p>
+              <p>You are a Kingpass holder</p>
+            </PlanCardLabel>
+            <CardImg>
+              <Img src={KingPassLogo} alt="kingpass-logo" />
+            </CardImg>
+          </ClaimPlanCardWrapper>
+          </ClaimPlanCard>
+        </ClaimPlanCardContainer>
+     )}
+     {state.typeOfUser === 4 && (
+        <ClaimPlanCardContainer>
+          <ClaimPlanCard style={{ height: '357px' }}>
+            <ClaimPlanCardWrapper>
+              <PlanCardLabel style={{ margin: 0 }}>
+                <p>Congratulations</p>
+                <p>You can now claim your Kingpass</p>
+              </PlanCardLabel>
+              <CardImg>
+                <Img src={KingPassLogo} alt="kingpass-logo" style={{ width: '120px' }} />
+              </CardImg>
+              <CardAction>
+                <CardButton2
+                    disabled={isLoad}
+                    onClick={() => {handleClickCliam()}}
+                    style={{ width: '220px' }}
+                  >
+                    {isLoad ? <Spinner /> : "Claim"}
+                  </CardButton2>
+              </CardAction>
+            </ClaimPlanCardWrapper> 
+          </ClaimPlanCard>
+        </ClaimPlanCardContainer>
       )}
     </KingpassClaimContainer>
   );
@@ -487,6 +536,11 @@ const PlanCardLabel = styled.div`
   margin-top: 20px;
   @media screen and (max-width: 680px) {
     font-size: 16px;
+  }
+  p{
+    padding: 0;
+    margin: 0;
+    line-height: 40px;
   }
 `
 
@@ -734,4 +788,13 @@ const Line = styled.div`
   top: 18px;
   background-color: #FFFFFF;
   transform: rotate(-5deg);
+`
+
+const ClaimPlanCardWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  gap: 38px;
 `
