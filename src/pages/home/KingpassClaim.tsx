@@ -52,7 +52,7 @@ export const KingpassClaim = () => {
         handleStateChanged("typeOfUser", Number(_typeOfUser.toString()));
       })();
     }
-  }, [isInitialized]);
+  }, [isInitialized, isLoad]);
 
   const handleSetActiveMonth = (status: string) => {
     if(status === '--') {

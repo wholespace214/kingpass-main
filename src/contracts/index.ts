@@ -3,7 +3,6 @@
 import { ethers } from 'ethers';
 import contracts from './contracts.json';
 import { erc20ABI } from 'wagmi'
-import { toast } from 'react-toastify';
 
 let signer: any = null;
 let provider: any = null;
@@ -20,6 +19,7 @@ export const initializeWeb3 = async (provider_: any, signer_: any) => {
 
   provider = provider_;
   signer = await signer_;
+  console.log({ provider, signer });
 };
 
 export const getKingpadStatus = async (address: string | undefined) => {
@@ -50,13 +50,16 @@ export const handleStartSubScription = async (months: number, usdtAddy: string, 
   const _kingPassCost = await kingPass.pricePass();
   const userBalance = await _currencyContract.balanceOf(user_address);
   const userAllowance = await _currencyContract.allowance(user_address, contracts.KINGpass_abi.address)
-  console.log({ userBalance, userAllowance, _kingPassCost })
-  if(userAllowance < _kingPassCost) {
+  const balance = parseInt(userBalance);
+  const allowance = parseInt(userAllowance);
+  const cost = parseInt(_kingPassCost);
+  console.log({ balance, allowance, cost })
+  if(parseInt(userAllowance) < parseInt(_kingPassCost)) {
     const tx = await _currencyContract.connect(signer).approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
     await tx.wait();
     console.log("allowed")
   }
-  if(userBalance >= _kingPassCost) {
+  if(parseInt(userBalance) >= parseInt(_kingPassCost)) {
     await kingPassWithSigner.buyPass(1, usdtAddy, status)
     console.log("unallowed")
   } else {
