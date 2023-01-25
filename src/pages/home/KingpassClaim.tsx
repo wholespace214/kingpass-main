@@ -71,9 +71,9 @@ export const KingpassClaim = () => {
       try {
         setLoad(true);
         await func();
+        await handleGetTypeOfUser();
         const kingpadStatus = await getKingpadStatus(address);
         setKingStatus(kingpadStatus ?? 0);
-        await handleGetTypeOfUser();
         resolve("");
       } catch (err) {
         reject(err)
@@ -85,7 +85,6 @@ export const KingpassClaim = () => {
         // toast.success("Congratulations, you have claimed your Kingpass");
         toast.success(successMsg);
         setLoad(false);
-        
       }
     ).catch(
       (err) => {
