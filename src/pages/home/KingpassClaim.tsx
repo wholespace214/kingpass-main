@@ -2,9 +2,17 @@
 import { useEffect, useState } from 'react';
 import { KingLogo, KingPassLogo, CalendarIcon, StarIcon, BusdIcon } from 'src/config/images';
 import { useWeb3Store } from 'src/context/web3context';
-import { getTypeofUser, handleClaim, handleStartSubScription, handleKingpassWithdraw, handleSubscriptionCancel, hasUserKing, getKingpadStatus } from 'src/contracts';
+import {
+  getTypeofUser,
+  handleClaim,
+  handleStartSubScription,
+  handleKingpassWithdraw,
+  handleSubscriptionCancel,
+  hasUserKing,
+  getKingpadStatus
+} from 'src/contracts';
 import styled from 'styled-components';
-import contracts from 'src/contracts/contracts.json'
+import contracts from 'src/contracts/contracts.json';
 import { useAccount, useBalance } from 'wagmi';
 import { CurrencyDropDown } from 'src/components/Dropdown/Currency';
 import { Spinner } from 'src/components/Spinner';
@@ -13,31 +21,31 @@ import { toast } from 'react-toastify';
 export const KingpassClaim = () => {
   const initialState: CurrencyArrProps = {
     icon: BusdIcon,
-    name: "BUSD",
+    name: 'BUSD',
     address: contracts.KINGpass_abi.busdAddress
-  }
+  };
 
   interface CurrencyArrProps {
-    icon: string ;
+    icon: string;
     name: string;
     address: string;
-}
+  }
   const { address } = useAccount();
   const { isInitialized } = useWeb3Store();
   const [isLoad, setLoad] = useState(false);
   const { data, isError, isLoading } = useBalance({
     address: address
   });
-  if (isLoading) console.log("Fetching balance...")
-  if(isError) console.log("Error fetching balance")
+  if (isLoading) console.log('Fetching balance...');
+  if (isError) console.log('Error fetching balance');
   const [state, setState] = useState({
     typeOfUser: 0,
-    subIdx: "0",
+    subIdx: '0',
     activeMonth: 1,
     currency: initialState,
     bonusMonth: 6,
-    bonusValue: "$ 499,95"
-  })
+    bonusValue: '$ 499,95'
+  });
 
   const { setKingStatus } = useWeb3Store();
 
@@ -45,75 +53,71 @@ export const KingpassClaim = () => {
     setState({ ...state, [prop]: value });
   };
 
-  // useEffect(() => {
-  //   if (isInitialized) {
-  //     (async () => {
-  //     //   const _typeOfUser = await getTypeofUser(address);
-  //     //   handleStateChanged("typeOfUser", Number(_typeOfUser.toString()));
-  //       await handleGetTypeOfUser()
-  //     })();
-  //   }
-  // }, [isInitialized, isLoad]);
+  useEffect(() => {
+    (async () => {
+      const _typeOfUser = await getTypeofUser(address);
+      handleStateChanged('typeOfUser', Number(_typeOfUser.toString()));
+      await handleGetTypeOfUser();
+    })();
+  }, []);
 
   const handleSetActiveMonth = (status: string) => {
-    if(status === '--') {
-      if(state.activeMonth > 1) {
+    if (status === '--') {
+      if (state.activeMonth > 1) {
         handleStateChanged('activeMonth', state.activeMonth - 1);
       }
     } else if (status === '++') {
-      handleStateChanged('activeMonth', state.activeMonth + 1)
+      handleStateChanged('activeMonth', state.activeMonth + 1);
     }
-  }
+  };
 
-  const handlePromiseFunc = (func:() => Promise<void>, successMsg: string, errMsg: string) => {
+  const handlePromiseFunc = (func: () => Promise<void>, successMsg: string, errMsg: string) => {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises, no-async-promise-executor
-    const promise = new Promise(async function(resolve, reject) {
+    const promise = new Promise(async function (resolve, reject) {
       try {
         setLoad(true);
         await func();
         await handleGetTypeOfUser();
         const kingpadStatus = await getKingpadStatus(address);
+        console.log({ kingpadStatus });
         setKingStatus(kingpadStatus ?? 0);
-        resolve("");
+        resolve('');
       } catch (err) {
-        reject(err)
+        reject(err);
       }
     });
-    promise.then(
-      (result) => {
-        console.log({ result })
+    promise
+      .then((result) => {
+        console.log({ result });
         // toast.success("Congratulations, you have claimed your Kingpass");
         toast.success(successMsg);
         setLoad(false);
-      }
-    ).catch(
-      (err) => {
+      })
+      .catch((err) => {
         console.log({ err });
-        // toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err); 
+        // toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err);
         const revertData = err.reason;
-        toast.error(`Transaction failed: ${revertData}`)
-        // errMsg !== "" ? toast.error(errMsg, err) :  
+        toast.error(`Transaction failed: ${revertData}`);
+        // errMsg !== "" ? toast.error(errMsg, err) :
         setLoad(false);
-      }
-    )
-  }
+      });
+  };
 
   const handleGetTypeOfUser = async () => {
-      const _typeOfUser = await getTypeofUser(address);
-      handleStateChanged("typeOfUser", Number(_typeOfUser.toString()));
-  }
+    const _typeOfUser = await getTypeofUser(address);
+    handleStateChanged('typeOfUser', Number(_typeOfUser.toString()));
+  };
 
   const handleClickCliam = async () => {
     const amount = data?.formatted;
     const hasKing = await hasUserKing(amount);
-    if(hasKing) {
-      handlePromiseFunc(handleClaim, "Congratulations, you have claimed your Kingpass", "");
-      
+    if (hasKing) {
+      handlePromiseFunc(handleClaim, 'Congratulations, you have claimed your Kingpass', '');
     } else {
       toast.error('Sorry, you don’t have enough $KING');
     }
-  }
-  console.log("asdf: ", state.typeOfUser, "+", state.subIdx);
+  };
+  console.log('asdf: ', state.typeOfUser, '+', state.subIdx);
 
   return (
     <KingpassClaimContainer>
@@ -133,170 +137,190 @@ export const KingpassClaim = () => {
           </p>
         </ClaimContent>
       </ClaimContentContainer>
-     {
-        state.typeOfUser === 0 && state.subIdx === "0" && (
-          <ClaimCardContainer>
-            <ClaimCard>
-              <CardTitle>
-                <p>Lock your $KING to </p>
-                <p>claim the KINGPASS</p>
-              </CardTitle>
-              <CardAction>
-                <CardButton1>
-                  <CardButtonValue>200.000 KING</CardButtonValue>
-                  <CardButtonIcon src={KingLogo} alt="card-button-icon" />
-                </CardButton1>
-                <CardButton2
-                  disabled={isLoad}
-                  onClick={() => {handleClickCliam()}}
-                >
-                  {isLoad ? <Spinner /> : "Claim"}
-                </CardButton2>
-              </CardAction>
-            </ClaimCard>
-            <ClaimCard>
-              <CardTitle>
-                <p>Start your monthly</p> <p>subscription now</p>
-              </CardTitle>
-              <CardAction>
-                <CardButton1>
-                  <CardButtonValue>$ 99,99/mo</CardButtonValue>
-                </CardButton1>
-                <CardButton2 onClick={() => handleStateChanged("subIdx", "1")}>Start</CardButton2>
-              </CardAction>
-            </ClaimCard>
-          </ClaimCardContainer>
-         )} 
-      {state.typeOfUser === 0 && state.subIdx === "1" && (
+      {state.typeOfUser === 0 && state.subIdx === '0' && (
+        <ClaimCardContainer>
+          <ClaimCard>
+            <CardTitle>
+              <p>Lock your $KING to </p>
+              <p>claim the KINGPASS</p>
+            </CardTitle>
+            <CardAction>
+              <CardButton1>
+                <CardButtonValue>200.000 KING</CardButtonValue>
+                <CardButtonIcon src={KingLogo} alt="card-button-icon" />
+              </CardButton1>
+              <CardButton2
+                disabled={isLoad}
+                onClick={() => {
+                  handleClickCliam();
+                }}
+              >
+                {isLoad ? <Spinner /> : 'Claim'}
+              </CardButton2>
+            </CardAction>
+          </ClaimCard>
+          <ClaimCard>
+            <CardTitle>
+              <p>Start your monthly</p> <p>subscription now</p>
+            </CardTitle>
+            <CardAction>
+              <CardButton1>
+                <CardButtonValue>$ 99,99/mo</CardButtonValue>
+              </CardButton1>
+              <CardButton2 onClick={() => handleStateChanged('subIdx', '1')}>Start</CardButton2>
+            </CardAction>
+          </ClaimCard>
+        </ClaimCardContainer>
+      )}
+      {state.typeOfUser === 0 && state.subIdx === '1' && (
         <ClaimPlanCardContainer>
-             <ClaimPlanCard>
-                <BackButton onClick={() => handleStateChanged("subIdx", "0")}>Back</BackButton>
-                <PlanCardLabel>Choose your plan</PlanCardLabel>
-                <PlanCardAction>
-                  <PlanSubBox onClick={() => handleStateChanged("subIdx", "1-1")}>
-                      <SubBoxLabel>
-                          Monthly Subscription
-                      </SubBoxLabel>
-                      <SubBoxIcon>
-                        <img src={CalendarIcon} alt="calendar-icon" style={{ width: '100%', height: '100%' }} />
-                      </SubBoxIcon>
-                  </PlanSubBox>
-                  <PlanSubBox onClick={() => handleStateChanged("subIdx", "1-2")}>
-                      <SubBoxLabel>
-                          Bonus Subscription
-                      </SubBoxLabel>
-                      <SubBoxIcon>
-                        <img src={StarIcon} alt='star-icon' style={{ width: '100%', height: '100%' }} />
-                      </SubBoxIcon>
-                  </PlanSubBox>
-                </PlanCardAction>
-             </ClaimPlanCard>
+          <ClaimPlanCard>
+            <BackButton onClick={() => handleStateChanged('subIdx', '0')}>Back</BackButton>
+            <PlanCardLabel>Choose your plan</PlanCardLabel>
+            <PlanCardAction>
+              <PlanSubBox onClick={() => handleStateChanged('subIdx', '1-1')}>
+                <SubBoxLabel>Monthly Subscription</SubBoxLabel>
+                <SubBoxIcon>
+                  <img src={CalendarIcon} alt="calendar-icon" style={{ width: '100%', height: '100%' }} />
+                </SubBoxIcon>
+              </PlanSubBox>
+              <PlanSubBox onClick={() => handleStateChanged('subIdx', '1-2')}>
+                <SubBoxLabel>Bonus Subscription</SubBoxLabel>
+                <SubBoxIcon>
+                  <img src={StarIcon} alt="star-icon" style={{ width: '100%', height: '100%' }} />
+                </SubBoxIcon>
+              </PlanSubBox>
+            </PlanCardAction>
+          </ClaimPlanCard>
         </ClaimPlanCardContainer>
       )}
 
-      {state.typeOfUser === 0 && state.subIdx === "1-1" && (
+      {state.typeOfUser === 0 && state.subIdx === '1-1' && (
         <ClaimPlanCardContainer>
-             <ClaimPlanCard>
-                <BackButton onClick={() => handleStateChanged("subIdx", "1")}>Back</BackButton>
-                <PlanCardLabel>Activate your monthly subscription</PlanCardLabel>
-                <ActivateAction>
-                  <ActivateElemGroup>
-                    <ActivateElemContainer>
-                      <ActivateLabel>
-                          Months
-                      </ActivateLabel>
-                      <ActivateElem>
-                          <ElemContainer>
-                            <ElemButton onClick={() => handleSetActiveMonth('--')}>-</ElemButton>
-                            <ShowLabel style={{ width: '17px', textAlign: 'center' }}>{state.activeMonth}</ShowLabel>
-                            <ElemButton onClick={() => handleSetActiveMonth('++')}>+</ElemButton>
-                          </ElemContainer>
-                      </ActivateElem>
-                    </ActivateElemContainer>
-                    <ActivateElemContainer>
-                      <ActivateLabel>
-                          Price
-                      </ActivateLabel>
-                      <ActivateElem>
-                      <ShowLabel>$ 99,99/mo</ShowLabel>
-                      </ActivateElem>
-                    </ActivateElemContainer>
-                    <ActivateElemContainer>
-                      <ActivateLabel>
-                          Currency
-                      </ActivateLabel>
-                      <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
-                    </ActivateElemContainer>
-                  </ActivateElemGroup>
+          <ClaimPlanCard>
+            <BackButton onClick={() => handleStateChanged('subIdx', '1')}>Back</BackButton>
+            <PlanCardLabel>Activate your monthly subscription</PlanCardLabel>
+            <ActivateAction>
+              <ActivateElemGroup>
+                <ActivateElemContainer>
+                  <ActivateLabel>Months</ActivateLabel>
+                  <ActivateElem>
+                    <ElemContainer>
+                      <ElemButton onClick={() => handleSetActiveMonth('--')}>-</ElemButton>
+                      <ShowLabel style={{ width: '17px', textAlign: 'center' }}>{state.activeMonth}</ShowLabel>
+                      <ElemButton onClick={() => handleSetActiveMonth('++')}>+</ElemButton>
+                    </ElemContainer>
+                  </ActivateElem>
+                </ActivateElemContainer>
+                <ActivateElemContainer>
+                  <ActivateLabel>Price</ActivateLabel>
+                  <ActivateElem>
+                    <ShowLabel>$ 99,99/mo</ShowLabel>
+                  </ActivateElem>
+                </ActivateElemContainer>
+                <ActivateElemContainer>
+                  <ActivateLabel>Currency</ActivateLabel>
+                  <CurrencyDropDown state={state.currency} setState={handleStateChanged} />
+                </ActivateElemContainer>
+              </ActivateElemGroup>
 
-                <ActivateButton disabled={isLoad} style={{ marginBottom: "46px" }} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.activeMonth, state.currency.address, true), "Congratulations, you have claimed your Kingpass", "Sorry! You don’t have enough funds")}>
-                  {isLoad? <Spinner /> : "Activate"}
-                </ActivateButton>
-                </ActivateAction>
-             </ClaimPlanCard>
+              <ActivateButton
+                disabled={isLoad}
+                style={{ marginBottom: '46px' }}
+                onClick={() =>
+                  handlePromiseFunc(
+                    async () => await handleStartSubScription(state.activeMonth, state.currency.address, true),
+                    'Congratulations, you have claimed your Kingpass',
+                    'Sorry! You don’t have enough funds'
+                  )
+                }
+              >
+                {isLoad ? <Spinner /> : 'Activate'}
+              </ActivateButton>
+            </ActivateAction>
+          </ClaimPlanCard>
         </ClaimPlanCardContainer>
       )}
 
-{state.typeOfUser === 0 && state.subIdx === "1-2" && (
-<ClaimCardContainer>
-  <ClaimPlanCard>
-    <BackButton onClick={() => handleStateChanged("subIdx", "1")}>Back</BackButton>
-    <PlanCardLabel>Activate your bonus subscription</PlanCardLabel>
-    <ActivateAction>
-      <SubScriptionGroup>
-        <SubscriptionCardContainer>
-        <SubscriptionCard>
-          <MonthValue>6</MonthValue>
-          <ActivateLabel>Months Subscription</ActivateLabel>
-          <DeletedText>
-          <ShowLabel style={{ marginTop: '8px' }}>$ 599,94</ShowLabel>
-          <Line />
-          </DeletedText>
-          <ShowLabel>$ 499,95</ShowLabel>
-        </SubscriptionCard>
-        <ActivateButton onClick={
-          () => {
-            setState({...state, subIdx: '1-2-1', bonusMonth: 6, bonusValue: '$ 499,95'});
-          }}>Activate</ActivateButton>
-        <ActivateLabel>Save 1 month</ActivateLabel>
-        </SubscriptionCardContainer>
-        <SubscriptionCardContainer>
-        <SubscriptionCard>
-        <MonthValue>12</MonthValue>
-          <ActivateLabel>Months Subscription</ActivateLabel>
-          <DeletedText>
-          <ShowLabel style={{ marginTop: '8px' }}>$ 1199,88</ShowLabel>
-          <Line />
-          </DeletedText>
-          <ShowLabel>$ 999,90</ShowLabel>
-        </SubscriptionCard>
-        <ActivateButton onClick={
-            () => { 
-              setState({...state, subIdx: '1-2-1', bonusMonth: 12, bonusValue: '$ 999,90'});
-            }}>Activate</ActivateButton>
-        <ActivateLabel>Save 2 months</ActivateLabel>
-        </SubscriptionCardContainer>
-      </SubScriptionGroup>
-    </ActivateAction>
-  </ClaimPlanCard>
-</ClaimCardContainer>
-)}
+      {state.typeOfUser === 0 && state.subIdx === '1-2' && (
+        <ClaimCardContainer>
+          <ClaimPlanCard>
+            <BackButton onClick={() => handleStateChanged('subIdx', '1')}>Back</BackButton>
+            <PlanCardLabel>Activate your bonus subscription</PlanCardLabel>
+            <ActivateAction>
+              <SubScriptionGroup>
+                <SubscriptionCardContainer>
+                  <SubscriptionCard>
+                    <MonthValue>6</MonthValue>
+                    <ActivateLabel>Months Subscription</ActivateLabel>
+                    <DeletedText>
+                      <ShowLabel style={{ marginTop: '8px' }}>$ 599,94</ShowLabel>
+                      <Line />
+                    </DeletedText>
+                    <ShowLabel>$ 499,95</ShowLabel>
+                  </SubscriptionCard>
+                  <ActivateButton
+                    onClick={() => {
+                      setState({ ...state, subIdx: '1-2-1', bonusMonth: 6, bonusValue: '$ 499,95' });
+                    }}
+                  >
+                    Activate
+                  </ActivateButton>
+                  <ActivateLabel>Save 1 month</ActivateLabel>
+                </SubscriptionCardContainer>
+                <SubscriptionCardContainer>
+                  <SubscriptionCard>
+                    <MonthValue>12</MonthValue>
+                    <ActivateLabel>Months Subscription</ActivateLabel>
+                    <DeletedText>
+                      <ShowLabel style={{ marginTop: '8px' }}>$ 1199,88</ShowLabel>
+                      <Line />
+                    </DeletedText>
+                    <ShowLabel>$ 999,90</ShowLabel>
+                  </SubscriptionCard>
+                  <ActivateButton
+                    onClick={() => {
+                      setState({ ...state, subIdx: '1-2-1', bonusMonth: 12, bonusValue: '$ 999,90' });
+                    }}
+                  >
+                    Activate
+                  </ActivateButton>
+                  <ActivateLabel>Save 2 months</ActivateLabel>
+                </SubscriptionCardContainer>
+              </SubScriptionGroup>
+            </ActivateAction>
+          </ClaimPlanCard>
+        </ClaimCardContainer>
+      )}
 
-{state.typeOfUser === 0 && state.subIdx === "1-2-1" && (
-  <ClaimCardContainer>
-  <ClaimPlanCard>
-  <BackButton onClick={() => handleStateChanged("subIdx", "1-2")}>Back</BackButton>
-    <PlanCardLabel>Select your preferred currency</PlanCardLabel>
-    <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>You are about to activate a {state.bonusMonth} month subscription for {state.bonusValue}</ActivateLabel>
-      <SubScriptionGroup style={{ paddingTop: "78px" }}>
-        <CurrencyDropDown state={state.currency} setState={handleStateChanged}/>
-        <ActivateButton style={{ width: "169px", marginBottom: '170px' }} disabled={isLoad} onClick={() => handlePromiseFunc(async () => await handleStartSubScription(state.bonusMonth, state.currency.address, false), "Congratulations, you have claimed your Kingpass", "Sorry! You don’t have enough funds")}>{isLoad ? <Spinner /> : "Activate"}</ActivateButton>
-      </SubScriptionGroup>
-  </ClaimPlanCard>
-  </ClaimCardContainer>
-)
-}
-    {state.typeOfUser === 1 && (
+      {state.typeOfUser === 0 && state.subIdx === '1-2-1' && (
+        <ClaimCardContainer>
+          <ClaimPlanCard>
+            <BackButton onClick={() => handleStateChanged('subIdx', '1-2')}>Back</BackButton>
+            <PlanCardLabel>Select your preferred currency</PlanCardLabel>
+            <ActivateLabel style={{ width: '100%', textAlign: 'center', paddingTop: '33px' }}>
+              You are about to activate a {state.bonusMonth} month subscription for {state.bonusValue}
+            </ActivateLabel>
+            <SubScriptionGroup style={{ paddingTop: '78px' }}>
+              <CurrencyDropDown state={state.currency} setState={handleStateChanged} />
+              <ActivateButton
+                style={{ width: '169px', marginBottom: '170px' }}
+                disabled={isLoad}
+                onClick={() =>
+                  handlePromiseFunc(
+                    async () => await handleStartSubScription(state.bonusMonth, state.currency.address, false),
+                    'Congratulations, you have claimed your Kingpass',
+                    'Sorry! You don’t have enough funds'
+                  )
+                }
+              >
+                {isLoad ? <Spinner /> : 'Activate'}
+              </ActivateButton>
+            </SubScriptionGroup>
+          </ClaimPlanCard>
+        </ClaimCardContainer>
+      )}
+      {state.typeOfUser === 1 && (
         <ClaimCardContainer>
           <ClaimCard>
             <CardTitle>
@@ -318,7 +342,18 @@ export const KingpassClaim = () => {
                 <CardButtonValue>200.000 KING</CardButtonValue>
                 <CardButtonIcon src={KingLogo} alt="card-button-icon" />
               </CardButton1>
-              <CardButton2 disabled={isLoad} onClick={() => handlePromiseFunc(handleKingpassWithdraw, "Congratulations, you have withdrawn your $KING", "You need to wait at least 24 hours to withdraw your $KING.")}>{isLoad ? <Spinner /> : "Withdraw"}</CardButton2>
+              <CardButton2
+                disabled={isLoad}
+                onClick={() =>
+                  handlePromiseFunc(
+                    handleKingpassWithdraw,
+                    'Congratulations, you have withdrawn your $KING',
+                    'You need to wait at least 24 hours to withdraw your $KING.'
+                  )
+                }
+              >
+                {isLoad ? <Spinner /> : 'Withdraw'}
+              </CardButton2>
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>
@@ -342,7 +377,13 @@ export const KingpassClaim = () => {
               <p>Subscription</p>
             </CardTitle>
             <CardAction>
-              <CardButton2 onClick={() => {handleSubscriptionCancel();}}>Cancel</CardButton2>
+              <CardButton2
+                onClick={() => {
+                  handleSubscriptionCancel();
+                }}
+              >
+                Cancel
+              </CardButton2>
             </CardAction>
           </ClaimCard>
         </ClaimCardContainer>
@@ -352,18 +393,18 @@ export const KingpassClaim = () => {
         <ClaimPlanCardContainer>
           <ClaimPlanCard style={{ height: '357px' }}>
             <ClaimPlanCardWrapper>
-            <PlanCardLabel style={{ margin: 0 }}>
-              <p>Congratulations</p>
-              <p>You are a Kingpass holder</p>
-            </PlanCardLabel>
-            <CardImg>
-              <Img src={KingPassLogo} alt="kingpass-logo" />
-            </CardImg>
-          </ClaimPlanCardWrapper>
+              <PlanCardLabel style={{ margin: 0 }}>
+                <p>Congratulations</p>
+                <p>You are a Kingpass holder</p>
+              </PlanCardLabel>
+              <CardImg>
+                <Img src={KingPassLogo} alt="kingpass-logo" />
+              </CardImg>
+            </ClaimPlanCardWrapper>
           </ClaimPlanCard>
         </ClaimPlanCardContainer>
-     )}
-     {state.typeOfUser === 4 && (
+      )}
+      {state.typeOfUser === 4 && (
         <ClaimPlanCardContainer>
           <ClaimPlanCard style={{ height: '357px' }}>
             <ClaimPlanCardWrapper>
@@ -376,14 +417,16 @@ export const KingpassClaim = () => {
               </CardImg>
               <CardAction>
                 <CardButton2
-                    disabled={isLoad}
-                    onClick={() => {handleClickCliam()}}
-                    style={{ width: '220px' }}
-                  >
-                    {isLoad ? <Spinner /> : "Claim"}
-                  </CardButton2>
+                  disabled={isLoad}
+                  onClick={() => {
+                    handleClickCliam();
+                  }}
+                  style={{ width: '220px' }}
+                >
+                  {isLoad ? <Spinner /> : 'Claim'}
+                </CardButton2>
               </CardAction>
-            </ClaimPlanCardWrapper> 
+            </ClaimPlanCardWrapper>
           </ClaimPlanCard>
         </ClaimPlanCardContainer>
       )}
@@ -498,7 +541,7 @@ const ClaimPlanCardContainer = styled.div`
     flex-direction: column;
     align-items: center;
   } */
-`
+`;
 
 const ClaimPlanCard = styled.div`
   border-radius: 24px;
@@ -518,17 +561,17 @@ const ClaimPlanCard = styled.div`
     width: fit-content;
     margin: 0 20px;
   }
-`
+`;
 
 const BackButton = styled.div`
   font-size: 13px;
   width: 100%;
   text-align: right;
   cursor: pointer;
-`
+`;
 const PlanCardLabel = styled.div`
   font-size: 21px;
-  color: #FFE3FD;
+  color: #ffe3fd;
   font-family: 'gotham-bold';
   width: 100%;
   text-align: center;
@@ -536,12 +579,12 @@ const PlanCardLabel = styled.div`
   @media screen and (max-width: 680px) {
     font-size: 16px;
   }
-  p{
+  p {
     padding: 0;
     margin: 0;
     line-height: 40px;
   }
-`
+`;
 
 const PlanCardAction = styled.div`
   display: flex;
@@ -550,14 +593,14 @@ const PlanCardAction = styled.div`
   justify-content: center;
   margin-top: 35px;
   @media screen and (max-width: 500px) {
-    flex-direction : column;
+    flex-direction: column;
     align-items: center;
   }
-`
+`;
 
 const PlanSubBox = styled.div`
   padding: 50px 39px;
-  border: 2px solid #94EAFE;
+  border: 2px solid #94eafe;
   border-radius: 37px;
   /* width: 140px; */
   display: flex;
@@ -565,17 +608,17 @@ const PlanSubBox = styled.div`
   align-items: center;
   gap: 28px;
   cursor: pointer;
-`
+`;
 
 const SubBoxLabel = styled.div`
   font-size: 15px;
   text-align: center;
-`
+`;
 
 const SubBoxIcon = styled.div`
   width: 50px;
   height: 50px;
-`
+`;
 
 const ActivateAction = styled.div`
   display: flex;
@@ -583,7 +626,7 @@ const ActivateAction = styled.div`
   flex-direction: column;
   align-items: center;
   padding-top: 50px;
-`
+`;
 
 const ActivateElemGroup = styled.div`
   display: flex;
@@ -594,46 +637,45 @@ const ActivateElemGroup = styled.div`
     flex-direction: column;
     gap: 30px;
   }
-`
+`;
 
 const ActivateElemContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 13px;
-`
+`;
 
 const ActivateLabel = styled.div`
   font-size: 13px;
-`
+`;
 
 const ActivateElem = styled.div`
   display: flex;
-  border: 2px solid #94EAFE;
+  border: 2px solid #94eafe;
   border-radius: 37px;
   /* justify-content: space-between; */
   padding: 20px;
   width: 125px;
-
-`
+`;
 
 const ElemContainer = styled.div`
   gap: 28px;
   display: flex;
   width: 100%;
   justify-content: center;
-`
+`;
 
 const ElemButton = styled.div`
   font-size: 20px;
   color: #ffe3fd;
   cursor: pointer;
-`
+`;
 
 const ShowLabel = styled.div`
   font-size: 20px;
-  color: #FFFFFF;
-`
+  color: #ffffff;
+`;
 
 const CardTitle = styled.div`
   font-size: 20px;
@@ -718,7 +760,7 @@ const Img = styled.img`
 `;
 
 const ActivateButton = styled.button`
-  background: transparent linear-gradient(225deg, #FCB0FE 0%, #BBFFFF 100%) 0% 0% no-repeat padding-box;
+  background: transparent linear-gradient(225deg, #fcb0fe 0%, #bbffff 100%) 0% 0% no-repeat padding-box;
   border-radius: 37px;
   color: #010101;
   text-transform: uppercase;
@@ -734,7 +776,7 @@ const ActivateButton = styled.button`
     font-size: 11px;
     height: 49px;
   }
-`
+`;
 
 const SubScriptionGroup = styled.div`
   display: flex;
@@ -745,20 +787,19 @@ const SubScriptionGroup = styled.div`
     flex-direction: column;
     align-items: center;
   }
-`
+`;
 
 const SubscriptionCardContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
   align-items: center;
-
-`
+`;
 
 const SubscriptionCard = styled.div`
   width: 219px;
   height: 156px;
-  border: 2px solid #94EAFE;
+  border: 2px solid #94eafe;
   border-radius: 37px;
   display: flex;
   flex-direction: column;
@@ -767,17 +808,17 @@ const SubscriptionCard = styled.div`
   @media screen and (max-width: 390px) {
     width: 170px;
   }
-`
+`;
 
 const MonthValue = styled.div`
   font-size: 34px;
   font-family: 'gotham-bold';
   padding-top: 10px;
-`
+`;
 
 const DeletedText = styled.div`
   position: relative;
-`
+`;
 
 const Line = styled.div`
   position: absolute;
@@ -785,9 +826,9 @@ const Line = styled.div`
   height: 1px;
   left: -20px;
   top: 18px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   transform: rotate(-5deg);
-`
+`;
 
 const ClaimPlanCardWrapper = styled.div`
   display: flex;
@@ -796,4 +837,4 @@ const ClaimPlanCardWrapper = styled.div`
   flex-direction: column;
   height: 100%;
   gap: 38px;
-`
+`;

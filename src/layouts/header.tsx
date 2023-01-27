@@ -60,6 +60,7 @@ export const Header = () => {
         } else {
           handleStateChanged('status', initialState.status); 
         }
+        console.log({ kingStatus })
       })();
     }
   }, [isInitialized, address, kingStatus]);
