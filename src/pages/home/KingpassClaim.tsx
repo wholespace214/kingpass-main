@@ -97,7 +97,7 @@ export const KingpassClaim = () => {
         console.log({ err });
         // toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err);
         const revertData = err.reason;
-        toast.error(`Transaction failed: ${revertData}`);
+        toast.error(`Transaction failed: ${revertData ?? err}`);
         // errMsg !== "" ? toast.error(errMsg, err) :
         setLoad(false);
       });
@@ -117,7 +117,6 @@ export const KingpassClaim = () => {
       toast.error('Sorry, you don’t have enough $KING');
     }
   };
-  console.log('asdf: ', state.typeOfUser, '+', state.subIdx);
 
   return (
     <KingpassClaimContainer>
