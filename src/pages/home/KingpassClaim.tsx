@@ -55,11 +55,13 @@ export const KingpassClaim = () => {
 
   useEffect(() => {
     (async () => {
-      const _typeOfUser = await getTypeofUser(address);
-      handleStateChanged('typeOfUser', Number(_typeOfUser.toString()));
-      await handleGetTypeOfUser();
+      if (isInitialized) {
+        const _typeOfUser = await getTypeofUser(address);
+        handleStateChanged('typeOfUser', Number(_typeOfUser.toString()));
+        await handleGetTypeOfUser();
+      }
     })();
-  }, []);
+  }, [isInitialized]);
 
   const handleSetActiveMonth = (status: string) => {
     if (status === '--') {
@@ -77,20 +79,20 @@ export const KingpassClaim = () => {
       try {
         setLoad(true);
         await func();
-        await handleGetTypeOfUser();
-        const kingpadStatus = await getKingpadStatus(address);
-        console.log({ kingpadStatus });
-        setKingStatus(kingpadStatus ?? 0);
         resolve('');
       } catch (err) {
         reject(err);
       }
     });
     promise
-      .then((result) => {
+      .then(async (result) => {
         console.log({ result });
         // toast.success("Congratulations, you have claimed your Kingpass");
         toast.success(successMsg);
+        await handleGetTypeOfUser();
+        const kingpadStatus = await getKingpadStatus(address);
+        console.log({ kingpadStatus });
+        setKingStatus(kingpadStatus ?? 0);
         setLoad(false);
       })
       .catch((err) => {
