@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAccount, useProvider, useSigner } from 'wagmi';
-import { getKingpadStatus, initializeWeb3 } from 'src/contracts';
+import { getKingpassStatus, initializeWeb3 } from 'src/contracts';
 
 interface Web3ContextProps {
   isConnected: boolean;
@@ -29,13 +29,17 @@ export const Web3Provider = (props: propsType) => {
         // console.log(signer);
         await initializeWeb3(provider, signer);
         setInitialized(true);
-        const kingpadStatus = await getKingpadStatus(address);
+        const kingpadStatus = await getKingpassStatus(address);
         setKingStatus(kingpadStatus ?? 0);
       })();
     }
   }, [isConnected, signer]);
 
-  return <Web3Context.Provider value={{ isConnected, isInitialized, kingStatus, setKingStatus }}>{props.children}</Web3Context.Provider>;
+  return (
+    <Web3Context.Provider value={{ isConnected, isInitialized, kingStatus, setKingStatus }}>
+      {props.children}
+    </Web3Context.Provider>
+  );
 };
 
 export const useWeb3Store = () => {

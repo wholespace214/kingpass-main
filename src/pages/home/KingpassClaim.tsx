@@ -9,7 +9,7 @@ import {
   handleKingpassWithdraw,
   handleSubscriptionCancel,
   hasUserKing,
-  getKingpadStatus
+  getKingpassStatus
 } from 'src/contracts';
 import styled from 'styled-components';
 import contracts from 'src/contracts/contracts.json';
@@ -79,35 +79,33 @@ export const KingpassClaim = () => {
       try {
         setLoad(true);
         await func();
-        resolve('');
+        await handleGetTypeOfUser();
+        const kingpassStatus = await getKingpassStatus(address);
+        console.log({ kingpassStatus });
+        setKingStatus(kingpassStatus ?? 0);
       } catch (err) {
         reject(err);
       }
     });
     promise
-      .then(async (result) => {
+      .then((result) => {
         console.log({ result });
-        // toast.success("Congratulations, you have claimed your Kingpass");
         toast.success(successMsg);
-        await handleGetTypeOfUser();
-        const kingpadStatus = await getKingpadStatus(address);
-        console.log({ kingpadStatus });
-        setKingStatus(kingpadStatus ?? 0);
         setLoad(false);
       })
       .catch((err) => {
         console.log({ err });
-        // toast.error(`you need to wait at least 24 hours to withdraw your $KING`, err);
         const revertData = err.reason;
         toast.error(`Transaction failed: ${revertData ?? err}`);
-        // errMsg !== "" ? toast.error(errMsg, err) :
         setLoad(false);
       });
   };
 
   const handleGetTypeOfUser = async () => {
-    const _typeOfUser = await getTypeofUser(address);
-    handleStateChanged('typeOfUser', Number(_typeOfUser.toString()));
+    const typeOfUser = await getTypeofUser(address);
+    const _typeOfUser = Number(typeOfUser.toString());
+    handleStateChanged('typeOfUser', _typeOfUser);
+    console.log({ _typeOfUser });
   };
 
   const handleClickCliam = async () => {

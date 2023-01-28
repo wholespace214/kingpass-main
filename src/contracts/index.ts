@@ -22,7 +22,7 @@ export const initializeWeb3 = async (provider_: any, signer_: any) => {
   console.log({ provider, signer });
 };
 
-export const getKingpadStatus = async (address: string | undefined) => {
+export const getKingpassStatus = async (address: string | undefined) => {
   const activeStatus = await kingPass.checkIfPassActive(address);
   const hasKingpass = await kingPass.firstNft(address);
   if (!hasKingpass) {
@@ -60,7 +60,8 @@ export const handleStartSubScription = async (months: number, usdtAddy: string, 
     console.log("allowed")
   }
   if(parseInt(userBalance) >= parseInt(_kingPassCost)) {
-    await kingPassWithSigner.buyPass(1, usdtAddy, status)
+    const tx = await kingPassWithSigner.buyPass(1, usdtAddy, status);
+    await tx.wait();
     console.log("unallowed")
   } else {
     // toast.error("Sorry! You don’t have enough funds")
