@@ -378,7 +378,11 @@ export const KingpassClaim = () => {
             <CardAction>
               <CardButton2
                 onClick={() => {
-                  handleSubscriptionCancel();
+                  handlePromiseFunc(
+                    handleSubscriptionCancel,
+                    'Your KingPass will deactivate automatically at the next renew',
+                    ''
+                  );
                 }}
               >
                 Cancel
