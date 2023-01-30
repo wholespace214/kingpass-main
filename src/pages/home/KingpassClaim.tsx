@@ -83,6 +83,7 @@ export const KingpassClaim = () => {
         const kingpassStatus = await getKingpassStatus(address);
         console.log({ kingpassStatus });
         setKingStatus(kingpassStatus ?? 0);
+        resolve('');
       } catch (err) {
         reject(err);
       }
