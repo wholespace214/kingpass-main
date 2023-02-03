@@ -54,17 +54,16 @@ export const handleStartSubScription = async (months: number, usdtAddy: string, 
   const allowance = parseInt(userAllowance);
   const cost = parseInt(_kingPassCost);
   console.log({ balance, allowance, cost })
+  const _months =  (await kingPass.pricePass()).mul(months);
   if(parseInt(userAllowance) < parseInt(_kingPassCost)) {
-    const tx = await _currencyContract.connect(signer).approve(contracts.KINGpass_abi.address, (await kingPass.pricePass()).mul(months));
+    const tx = await _currencyContract.connect(signer).approve(contracts.KINGpass_abi.address, _months);
     await tx.wait();
-    console.log("allowed")
   }
   if(parseInt(userBalance) >= parseInt(_kingPassCost)) {
-    const tx = await kingPassWithSigner.buyPass(1, usdtAddy, status);
+    const __months = status ? 1 : _months
+    const tx = await kingPassWithSigner.buyPass(__months, usdtAddy, status);
     await tx.wait();
-    console.log("unallowed")
   } else {
-    // toast.error("Sorry! You don’t have enough funds")
     // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw "Sorry! You don’t have enough funds";
   }

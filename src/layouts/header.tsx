@@ -31,7 +31,6 @@ const statusArr: statusArrProps[] = [
     content: 'Active kingpass',
     opacity: 1
   }
-
 ];
 
 const initialState = {
@@ -55,12 +54,12 @@ export const Header = () => {
     console.log({ address });
     if (isInitialized) {
       (async () => {
-        if(address !== undefined) { 
+        if (address !== undefined) {
           handleStateChanged('status', statusArr[kingStatus]);
         } else {
-          handleStateChanged('status', initialState.status); 
+          handleStateChanged('status', initialState.status);
         }
-        console.log({ kingStatus })
+        console.log({ kingStatus });
       })();
     }
   }, [isInitialized, address, kingStatus]);
@@ -91,15 +90,19 @@ export const HeaderContent = (props: HeaderProps) => {
       </HeaderBar>
       <HeaderAction>
         <HeaderNav>
-          <a href={'https://kingworld.finance'} rel="noopener noreferrer" target={"_blank"}>
+          <a href={'https://kingworld.finance'} rel="noopener noreferrer" target={'_blank'}>
             <NavItem>King</NavItem>
           </a>
-          <a href={'https://king-finance.gitbook.io/king-whitepaper/king-pass/king-pass'} rel="noopener noreferrer" target={"_blank"}>
-          <NavItem>Docs</NavItem>
+          <a
+            href={'https://king-finance.gitbook.io/king-whitepaper/king-pass/king-pass'}
+            rel="noopener noreferrer"
+            target={'_blank'}
+          >
+            <NavItem>Docs</NavItem>
           </a>
-          <a href={' http://t.me/kingannouncements'} rel="noopener noreferrer" target={"_blank"}>
-          <NavItem>News</NavItem>
-          </a> 
+          <a href={' http://t.me/kingannouncements'} rel="noopener noreferrer" target={'_blank'}>
+            <NavItem>News</NavItem>
+          </a>
         </HeaderNav>
         <HeaderButtons>
           <AwesomeDropDown state={state.status} />
