@@ -81,7 +81,6 @@ export const KingpassClaim = () => {
         await func();
         await handleGetTypeOfUser();
         const kingpassStatus = await getKingpassStatus(address);
-        console.log({ kingpassStatus });
         setKingStatus(kingpassStatus ?? 0);
         resolve('');
       } catch (err) {
@@ -90,12 +89,10 @@ export const KingpassClaim = () => {
     });
     promise
       .then((result) => {
-        console.log({ result });
         toast.success(successMsg);
         setLoad(false);
       })
       .catch((err) => {
-        console.log({ err });
         const revertData = err.reason;
         toast.error(`Transaction failed: ${revertData ?? err}`);
         setLoad(false);
@@ -106,7 +103,6 @@ export const KingpassClaim = () => {
     const typeOfUser = await getTypeofUser(address);
     const _typeOfUser = Number(typeOfUser.toString());
     handleStateChanged('typeOfUser', _typeOfUser);
-    console.log({ _typeOfUser });
   };
 
   const handleClickCliam = async () => {

@@ -51,7 +51,6 @@ export const Header = () => {
   const { isInitialized, kingStatus } = useWeb3Store();
   const { address } = useAccount();
   useEffect(() => {
-    console.log({ address });
     if (isInitialized) {
       (async () => {
         if (address !== undefined) {
@@ -59,7 +58,6 @@ export const Header = () => {
         } else {
           handleStateChanged('status', initialState.status);
         }
-        console.log({ kingStatus });
       })();
     }
   }, [isInitialized, address, kingStatus]);

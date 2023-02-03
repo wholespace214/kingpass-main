@@ -50,10 +50,6 @@ export const handleStartSubScription = async (months: number, usdtAddy: string, 
   const _kingPassCost = await kingPass.pricePass();
   const userBalance = await _currencyContract.balanceOf(user_address);
   const userAllowance = await _currencyContract.allowance(user_address, contracts.KINGpass_abi.address)
-  const balance = parseInt(userBalance);
-  const allowance = parseInt(userAllowance);
-  const cost = parseInt(_kingPassCost);
-  console.log({ balance, allowance, cost })
   const _months =  (await kingPass.pricePass()).mul(months);
   if(parseInt(userAllowance) < parseInt(_kingPassCost)) {
     const tx = await _currencyContract.connect(signer).approve(contracts.KINGpass_abi.address, _months);

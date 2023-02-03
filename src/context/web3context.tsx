@@ -25,8 +25,6 @@ export const Web3Provider = (props: propsType) => {
   useEffect(() => {
     if (isConnected) {
       (async () => {
-        // eslint-disable-next-line no-console
-        // console.log(signer);
         await initializeWeb3(provider, signer);
         setInitialized(true);
         const kingpadStatus = await getKingpassStatus(address);
