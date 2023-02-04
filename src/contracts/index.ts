@@ -19,7 +19,6 @@ export const initializeWeb3 = async (provider_: any, signer_: any) => {
 
   provider = provider_;
   signer = await signer_;
-  console.log({ provider, signer });
 };
 
 export const getKingpassStatus = async (address: string | undefined) => {
