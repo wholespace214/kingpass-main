@@ -55,7 +55,7 @@ export const handleStartSubScription = async (months: number, usdtAddy: string, 
     await tx.wait();
   }
   if(parseInt(userBalance) >= parseInt(_kingPassCost)) {
-    const __months = status ? 1 : _months
+    const __months = status ? 1 : months
     const tx = await kingPassWithSigner.buyPass(__months, usdtAddy, status);
     await tx.wait();
   } else {

@@ -369,7 +369,7 @@ export const KingpassClaim = () => {
           </ClaimCard>
           <ClaimCard>
             <CardTitle>
-              <p>Cancel yours</p>
+              <p>Cancel your</p>
               <p>Subscription</p>
             </CardTitle>
             <CardAction>
