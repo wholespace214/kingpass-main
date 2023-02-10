@@ -57,10 +57,19 @@ const SideBar = ({ name, setState }: SidebarProps) => {
         <CloseButton name={name} setState={setState} />
       </SideBarAction>
       <SideBarContent>
-        <SidebarItem>Competition</SidebarItem>
-        <SidebarItem>News</SidebarItem>
-        <SidebarItem>King</SidebarItem>
-        <SidebarItem>Docs</SidebarItem>
+        <a href={'https://kingworld.finance'} target="_blank" rel="noopener noreferrer">
+          <SidebarItem>King</SidebarItem>
+        </a>
+        <a
+          href={'https://king-finance.gitbook.io/king-whitepaper/king-pass/king-pass'}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <SidebarItem>Docs</SidebarItem>
+        </a>
+        <a href={'http://t.me/kingannouncements'} target="_blank" rel="noopener noreferrer">
+          <SidebarItem>News</SidebarItem>
+        </a>
         <Img src={KingPassLogo} alt="kingpass-logo" />
       </SideBarContent>
     </SideBarContainer>
