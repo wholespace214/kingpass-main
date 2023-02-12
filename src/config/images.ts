@@ -12,6 +12,8 @@ import UsdcIcon from "../assets/svg/currency-icon-USDC.svg"
 import UsdtIcon from "../assets/svg/currency-icon-USDT.svg"
 import CalendarIcon from "../assets/svg/Subsicons-01.svg"
 import StarIcon from "../assets/svg/Subsicons-02.svg"
+import KingPassNFTImg from '../assets/png/mintimage.png'
+import EthereumSvg from '../assets/svg/ethereum.svg'
 
 export {
   DeskBackgroundImg,
@@ -27,5 +29,7 @@ export {
   UsdcIcon,
   UsdtIcon,
   CalendarIcon,
-  StarIcon
+  StarIcon,
+  KingPassNFTImg,
+  EthereumSvg
 };

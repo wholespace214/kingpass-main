@@ -1,18 +1,17 @@
 import { FooterLogo } from 'src/config/images';
 import styled from 'styled-components';
-import { FaTelegramPlane, FaTwitter, FaYoutube, FaGithub } from 'react-icons/fa';
+import { FaTelegramPlane, FaTwitter, FaYoutube, FaDiscord } from 'react-icons/fa';
 import { BsMedium } from 'react-icons/bs';
 import { SiGitbook } from 'react-icons/si';
 
 export const Footer = () => {
   return (
     <FooterContainer>
-      <a href={'https://kingworld.finance/'} rel="noopener noreferrer" target={"_blank"}>
+      <a href={'https://kingworld.finance/'} rel="noopener noreferrer" target={'_blank'}>
         <Img src={FooterLogo} alt="footer-logo" />
       </a>
       <FooterLinks>
-        <FooterLink>Cookie preferences</FooterLink> | <FooterLink>Privacy police</FooterLink> |
-        <FooterLink>Terms of use</FooterLink>
+        <FooterLink>Privacy police</FooterLink> |<FooterLink>Terms of use</FooterLink>
       </FooterLinks>
       <ExternalLinks>
         <a href={'https://t.me/KlNGfinance'} rel="noopener noreferrer" target="_blank">
@@ -35,9 +34,9 @@ export const Footer = () => {
             <SiGitbook style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
-        <a href={'https://medium.com/@kingfinance'} rel="noopener noreferrer" target="_blank">
+        <a href={'https://discord.gg/kingfinance'} rel="noopener noreferrer" target="_blank">
           <Icon>
-            <BsMedium style={{ width: '100%', height: 'auto' }} />
+            <FaDiscord style={{ width: '100%', height: 'auto' }} />
           </Icon>
         </a>
       </ExternalLinks>
@@ -73,10 +72,14 @@ const FooterLinks = styled.div`
   display: flex;
   gap: 20px;
   align-items: center;
-  font-size: 16px;
+  font-size: 15px;
   @media screen and (max-width: 540px) {
-    font-size: 10px;
+    font-size: 13px;
     gap: 10px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 11px;
   }
 `;
 const FooterLink = styled.div``;
@@ -91,9 +94,10 @@ const ExternalLinks = styled.div`
 `;
 
 const Icon = styled.div`
-  width: 30px;
-  height: 30px;
-  @media screen and (max-width: 540px) {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  @media screen and (max-width: 480px) {
     width: 20px;
     height: 20px;
   }

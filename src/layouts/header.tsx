@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { Modal } from 'src/components/Modal';
 import { useAccount } from 'wagmi';
 import { useWeb3Store } from 'src/context/web3context';
+import { useNavigate } from 'react-router-dom';
 
 interface statusArrProps {
   color: string;
@@ -77,7 +78,7 @@ interface HeaderProps {
 
 export const HeaderContent = (props: HeaderProps) => {
   const { state, handleState } = props;
-
+  const navigate = useNavigate();
   return (
     <HeaderContainer>
       <HeaderBar>
@@ -88,6 +89,7 @@ export const HeaderContent = (props: HeaderProps) => {
       </HeaderBar>
       <HeaderAction>
         <HeaderNav>
+          <NavItem onClick={() => navigate('/mint')}>Mint</NavItem>
           <a href={'https://kingworld.finance'} rel="noopener noreferrer" target={'_blank'}>
             <NavItem>King</NavItem>
           </a>

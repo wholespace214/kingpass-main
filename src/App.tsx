@@ -7,6 +7,7 @@ import { Provider } from './Provider';
 import { Layout } from './layouts/layout';
 
 import { Home } from './pages/home';
+import { MintPage } from './pages/mint';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Routes>
               <Route path={PUBLIC_ROUTES.default} element={<Home />} />
               <Route path={PUBLIC_ROUTES.home} element={<Home />} />
+              <Route path={PUBLIC_ROUTES.mint} element={<MintPage />} />
               <Route path="*" element={<Navigate to={PUBLIC_ROUTES.error404} replace />} />
             </Routes>
           </Layout>
