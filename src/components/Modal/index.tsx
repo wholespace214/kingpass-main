@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { GlobalContainer } from '../container';
 import { MdClose } from 'react-icons/md';
 import { KingPassLogo } from 'src/config/images';
+import { useNavigate } from 'react-router-dom';
 
 interface ModalProps {
   name: string;
@@ -51,12 +52,21 @@ const ModalContainer = ({ isShow, children }: ModalContainerProps) => {
 };
 
 const SideBar = ({ name, setState }: SidebarProps) => {
+  const navigate = useNavigate();
   return (
     <SideBarContainer>
       <SideBarAction>
         <CloseButton name={name} setState={setState} />
       </SideBarAction>
       <SideBarContent>
+        <SidebarItem
+          onClick={() => {
+            navigate('/mint');
+            setState(name, false);
+          }}
+        >
+          Mint
+        </SidebarItem>
         <a href={'https://kingworld.finance'} target="_blank" rel="noopener noreferrer">
           <SidebarItem>King</SidebarItem>
         </a>

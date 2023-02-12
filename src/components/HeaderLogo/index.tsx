@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { KingPassLogo } from 'src/config/images';
 import styled from 'styled-components';
 
 export const HeaderLogo = () => {
+  const navigate = useNavigate();
   return (
-    <HeaderLogoContainer>
+    <HeaderLogoContainer onClick={() => navigate('/')}>
       <Img src={KingPassLogo} alt="kingpass-logo" />
       <Typography>KING PASS</Typography>
     </HeaderLogoContainer>
