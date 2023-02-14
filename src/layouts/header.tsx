@@ -9,6 +9,7 @@ import { Modal } from 'src/components/Modal';
 import { useAccount } from 'wagmi';
 import { useWeb3Store } from 'src/context/web3context';
 import { useNavigate } from 'react-router-dom';
+import { FaDiscord } from 'react-icons/fa';
 
 interface statusArrProps {
   color: string;
@@ -105,6 +106,9 @@ export const HeaderContent = (props: HeaderProps) => {
           </a>
         </HeaderNav>
         <HeaderButtons>
+          <DiscordLink href="https://discord.gg/kingfinance" rel="noopenner noreferrer" target={'_blank'}>
+            <VIPJoinButton />
+          </DiscordLink>
           <AwesomeDropDown state={state.status} />
           <CustomConnectButton />
         </HeaderButtons>
@@ -134,7 +138,10 @@ const HeaderBar = styled.div`
 const HeaderAction = styled.div`
   display: flex;
   align-items: center;
-  gap: 35px;
+  gap: 38px;
+  @media screen and (max-width: 1100px) {
+    gap: 25px;
+  }
 `;
 
 const HeaderNav = styled.div`
@@ -155,7 +162,7 @@ const NavItem = styled.div`
 const HeaderButtons = styled.div`
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
   @media screen and (max-width: 540px) {
     gap: 10px;
   }
@@ -175,5 +182,37 @@ const SidebarMenuButton = styled.div`
   @media screen and (max-width: 390px) {
     width: 25px;
     height: 25px;
+  }
+`;
+
+export const VIPJoinButton = () => {
+  return (
+    <VIPJoinButtonContainer>
+      <FaDiscord style={{ width: '24px', height: '24px' }} />
+      Join Vip
+    </VIPJoinButtonContainer>
+  );
+};
+
+const VIPJoinButtonContainer = styled.div`
+  background: none;
+  border-radius: 37px;
+  border: 2px solid #ffffff;
+  width: 105px;
+  padding: 0 10px;
+  height: 41px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  gap: 8px;
+  font-size: 15px;
+`;
+
+const DiscordLink = styled.a`
+  outline: none;
+  @media screen and (max-width: 1072px) {
+    display: none;
   }
 `;

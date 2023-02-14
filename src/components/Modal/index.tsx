@@ -1,4 +1,4 @@
-import { HeaderContent } from 'src/layouts/header';
+import { HeaderContent, VIPJoinButton } from 'src/layouts/header';
 import styled from 'styled-components';
 import { GlobalContainer } from '../container';
 import { MdClose } from 'react-icons/md';
@@ -35,7 +35,7 @@ export const Modal = (props: ModalProps) => {
 };
 
 const ModalStyle = styled.div`
-  z-index: auto;
+  z-index: 99999999999999999999999999999;
   position: fixed;
   top: 0;
   left: 0;
@@ -80,6 +80,9 @@ const SideBar = ({ name, setState }: SidebarProps) => {
         <a href={'http://t.me/kingannouncements'} target="_blank" rel="noopener noreferrer">
           <SidebarItem>News</SidebarItem>
         </a>
+        <DiscordLink href="https://discord.gg/kingfinance" rel="noopenner noreferrer" target={'_blank'}>
+          <VIPJoinButton />
+        </DiscordLink>
         <Img src={KingPassLogo} alt="kingpass-logo" />
       </SideBarContent>
     </SideBarContainer>
@@ -137,7 +140,11 @@ const SidebarItem = styled.div`
 `;
 
 const Img = styled.img`
-  width: 75px;
+  width: 100px;
   height: auto;
-  padding-top: 50px;
+  padding-top: 10px;
+`;
+
+const DiscordLink = styled.a`
+  outline: none;
 `;
